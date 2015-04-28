@@ -1,0 +1,20 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 2,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "chipmunk"],
+
+    "jsList" : [
+        "src/resource.js",
+        "src/config/GameConfig.js",
+        "src/MainMenu.js",
+        "src/SettingLayer.js",
+        "src/ShopLayer.js"
+    ]
+}
