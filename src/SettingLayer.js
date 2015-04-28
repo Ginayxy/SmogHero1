@@ -55,9 +55,9 @@ var SettingLayer = cc.Layer.extend({
         var musicBtnToggle = new cc.MenuItemToggle(music_btn, music_btn_n, this.onMusicControl, this);
         musicBtnToggle.setScale(0.9);
         soundBtnToggle.setScale(0.9);
-        musicBtnToggle.attr({x: size.width / 2, y: 650});
-        soundBtnToggle.attr({x: size.width / 2, y: 450});
-        home_btn.attr({x: size.width / 2 + 310, y: 100});
+        musicBtnToggle.setPosition(size.width / 2, 650);
+        soundBtnToggle.setPosition(size.width / 2, 450);
+        home_btn.setPosition(size.width - 100, 100);
 
         var menu = new cc.Menu(musicBtnToggle, soundBtnToggle, home_btn);
         menu.x = 0;
@@ -71,7 +71,7 @@ var SettingLayer = cc.Layer.extend({
         SH.SOUND = !SH.SOUND;
         var audioEngine = cc.audioEngine;
         if (SH.SOUND) {
-            audioEngine.playEffect(res.Click_ogg);
+            audioEngine.playEffect(sound_res.Click_eff);
         } else {
             audioEngine.stopAllEffects();
         }
@@ -80,7 +80,7 @@ var SettingLayer = cc.Layer.extend({
     onMusicControl: function () {
         SH.MUSIC = !SH.MUSIC;
         var audioEngine = cc.audioEngine;
-        audioEngine.playEffect(res.Click_ogg);
+        audioEngine.playEffect(sound_res.Click_eff);
         if (SH.MUSIC) {
 
         } else {
@@ -90,7 +90,8 @@ var SettingLayer = cc.Layer.extend({
 
     onBack: function () {
         var audioEngine = cc.audioEngine;
-        audioEngine.playEffect(res.Click_ogg);
-        cc.director.popScene();
+        audioEngine.playEffect(sound_res.Click_eff);
+        var scene = new MainMenuScene();
+        cc.director.runScene(new cc.TransitionFade(0.5,scene));
     }
 });

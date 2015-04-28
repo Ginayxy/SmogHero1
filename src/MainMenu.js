@@ -24,7 +24,7 @@ var MainMenuLayer = cc.Layer.extend({
         bg.attr({x: size.width / 2, y: size.height / 2, anchorX: 0.5, anchorY: 0.5});
         bg.changeWidth(800);
         bg.changeHeight(1136);
-        title.attr({x: size.width / 2, y: 900});
+        title.setPosition(size.width / 2, 900);
         buildings.attr({x: size.width / 2, y: 0, anchorX: 0.5, anchorY: 0});
         buildings.setOpacity(210);
         rope.attr({x: size.width / 2, y: 950, anchorX: 0.5, anchorY: 1});
@@ -38,7 +38,7 @@ var MainMenuLayer = cc.Layer.extend({
         this._superman.setScale(0.5);
         this.addChild(this._superman, 11, 4);
         this._superman.attr({x: size.width / 2 - 400, y: Math.random() * size.height / 2, anchorX: 0, anchorY: 0});
-        this._superman.runAction(cc.moveBy(5, cc.p(800, 0)));
+        this._superman.runAction(cc.moveBy(5, cc.p(size.width, 0)));
 
         // 文字
         var play_txt = new cc.LabelBMFont('PLAY', res.charmap_fnt);
@@ -52,12 +52,9 @@ var MainMenuLayer = cc.Layer.extend({
         var role_btn = new cc.MenuItemImage('#Rolebtn_up.png', '#Rolebtn_down.png', this.onRole, this);
         var setting_btn = new cc.MenuItemImage('#Settingbtn_up.png','#Settingbtn_down.png', this.onSetting, this);
 
-        play_btn.x = size.width / 2;
-        play_btn.y = 650;
-        role_btn.x = size.width / 2 - 61;
-        role_btn.y = 500;
-        setting_btn.x = size.width / 2 + 61;
-        setting_btn.y = 500;
+        play_btn.setPosition(size.width / 2, 650);
+        role_btn.setPosition(size.width / 2 - 61, 500);
+        setting_btn.setPosition(size.width / 2 + 61, 500);
 
         var menu = new cc.Menu(play_btn, role_btn, setting_btn);
         menu.x = 0;
@@ -71,41 +68,42 @@ var MainMenuLayer = cc.Layer.extend({
 
     onPlay: function () {
         if(SH.SOUND){
-            cc.audioEngine.playEffect(res.Click_ogg);
+            cc.audioEngine.playEffect(sound_res.Click_eff);
         }
         var gameplay = new GamePlayScene();
-        cc.director.pushScene(new cc.TransitionFade(0.5,gameplay));
+        cc.director.runScene(new cc.TransitionFade(0.5,gameplay));
     },
 
     onRole: function () {
         var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            audioEngine.playEffect(res.Click_ogg);
+            audioEngine.playEffect(sound_res.Click_eff);
         }
-        var scene = new cc.Scene();
-        scene.addChild(new ShopLayer());
-        cc.director.pushScene(new cc.TransitionFade(0.5, scene));
+        var scene = new ShopScene();
+        cc.director.runScene(new cc.TransitionFade(0.5, scene));
     },
 
     onSetting: function () {
         var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            audioEngine.playEffect(res.Click_ogg);
+            audioEngine.playEffect(sound_res.Click_eff);
         }
         var scene = new cc.Scene();
         scene.addChild(new SettingLayer());
-        cc.director.pushScene(new cc.TransitionFade(0.5, scene));
+        cc.director.runScene(new cc.TransitionFade(0.5, scene));
     },
 
     update: function () {
-        if (this._superman.x > size.width / 2 + 399) {
-            this._superman.visible = false;
+        if (this._superman.x > size.width - 1) {
+            this._superman.runAction(cc.toggleVisibility);
             this._superman.y = Math.random() * size.height;
-            this._superman.x = size.width / 2 - 400;
-            this.scheduleOnce(function () {
-                this._superman.runAction(cc.moveBy(5, cc.p(800, 0)));
-                this._superman.visible = true;
-            }, Math.random() * 10 + 10);
+            this._superman.x = 0;
+            var tamp =  Math.floor(Math.random() * 10) + 10;
+            this.schedule(function () {
+                this._superman.runAction(cc.moveBy(5, cc.p(size.width, 0)));
+                this._superman.runAction(cc.toggleVisibility);
+            }, 0.0, 0, tamp);
+            cc.place()
         }
     }
 });

@@ -70,6 +70,17 @@ var ShopLayer = cc.Layer.extend({
 
 
     onBack: function () {
-        cc.director.popScene();
+        var audioEngine = cc.audioEngine;
+        audioEngine.playEffect(sound_res.Click_eff);
+        var scene = new MainMenuScene();
+        cc.director.runScene(new cc.TransitionFade(0.5,scene));
+    }
+});
+
+var ShopScene = cc.Scene.extend({
+    onEnter: function () {
+        this._super();
+        var layer = new ShopLayer();
+        this.addChild(layer);
     }
 });

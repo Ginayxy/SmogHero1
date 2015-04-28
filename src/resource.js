@@ -23,19 +23,39 @@ var res = {
 
     //config
     charmap_fnt: "res/font.fnt",
-    charmap_png: "res/font.png",
-
-    // sound
-    Click_ogg: "res/sound/click.ogg",
-    Coin_ogg: "res/sound/coin.ogg",
-    Drop_ogg: "res/sound/drop.ogg",
-    Fly_ogg: "res/sound/fly.ogg",
-    Over_ogg: "res/sound/over.ogg",
-    Play_mp3: "res/sound/play.mp3"
+    charmap_png: "res/font.png"
 
 };
+
+var sound_res = {};
+var sound_res_iOS = {
+    Click_eff: "res/sound/click.caf",
+    Coin_eff: "res/sound/coin.caf",
+    Drop_eff: "res/sound/drop.caf",
+    Fly_eff: "res/sound/fly.caf",
+    Over_eff: "res/sound/over.caf",
+    Play_music: "res/sound/play.caf"
+};
+
+var sound_res_Other = {
+    Click_eff: "res/sound/click.ogg",
+    Coin_eff: "res/sound/coin.ogg",
+    Drop_eff: "res/sound/drop.ogg",
+    Fly_eff: "res/sound/fly.ogg",
+    Over_eff: "res/sound/over.ogg",
+    Play_music: "res/sound/play.mp3"
+};
+
+if(cc.sys.os == cc.sys.OS_IOS){
+    sound_res = sound_res_iOS;
+}else{
+    sound_res = sound_res_Other;
+}
 
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
+}
+for(var i in sound_res){
+    g_resources.push(sound_res[i]);
 }

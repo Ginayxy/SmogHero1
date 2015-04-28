@@ -1,7 +1,7 @@
 
 cc.game.onStart = function(){
     cc.view.adjustViewPort(true);
-    var policy = new cc.ResolutionPolicy(cc.ContainerStrategy.PROPORTION_TO_FRAME, cc.ContentStrategy.FIXED_HEIGHT);
+    var policy = new cc.ResolutionPolicy(cc.ContainerStrategy.PROPORTION_TO_FRAMEH, cc.ContentStrategy.FIXED_HEIGHT);
     cc.view.setDesignResolutionSize(800, 1136, policy);
     cc.view.resizeWithBrowserSize(true);
     //load resources

@@ -977,6 +977,41 @@ cc.ContentStrategy = cc.Class.extend(/** @lends cc.ContentStrategy# */{
 
     /**
      * @class
+     * @extends cc.ContainerStrategy
+     */
+    var ProportionalToFrameH = cc.ContainerStrategy.extend({
+        apply: function (view, designedResolution) {
+            var frameW = view._frameSize.width, frameH = view._frameSize.height, containerStyle = cc.container.style,
+                designW = designedResolution.width, designH = designedResolution.height,
+                scaleX = frameW / designW, scaleY = frameH / designH,
+                containerW, containerH,
+                offx,offy;
+
+            scaleX < scaleY ? (containerW = frameW, containerH = frameH) : (containerW = designW * scaleY, containerH = frameH);
+
+            // Adjust container size with integer value
+            if(scaleX < scaleY){
+                offx = 0, offy = 0;
+                containerStyle.overflowX = "hidden";
+            }else{
+                offx = Math.round((frameW - containerW) / 2);
+                offy = Math.round((frameH - containerH) / 2);
+                containerW = frameW - 2 * offx;
+                containerH = frameH - 2 * offy;
+            }
+
+            this._setupContainer(view, containerW, containerH);
+            // Setup container's margin
+            containerStyle.overflowX = "hidden";
+            containerStyle.marginLeft = offx + "px";
+            containerStyle.marginRight = offx + "px";
+            containerStyle.marginTop = offy + "px";
+            containerStyle.marginBottom = offy + "px";
+        }
+    });
+
+    /**
+     * @class
      * @extends EqualToFrame
      */
     var EqualToWindow = EqualToFrame.extend({
@@ -1025,6 +1060,7 @@ cc.ContentStrategy = cc.Class.extend(/** @lends cc.ContentStrategy# */{
     cc.ContainerStrategy.EQUAL_TO_FRAME = new EqualToFrame();
 // Alias: Strategy that scale proportionally the container's size to frame's size
     cc.ContainerStrategy.PROPORTION_TO_FRAME = new ProportionalToFrame();
+    cc.ContainerStrategy.PROPORTION_TO_FRAMEH = new ProportionalToFrameH();
 // Alias: Strategy that keeps the original container's size
     cc.ContainerStrategy.ORIGINAL_CONTAINER = new OriginalContainer();
 
