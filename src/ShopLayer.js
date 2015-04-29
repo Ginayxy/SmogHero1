@@ -32,7 +32,7 @@ var ShopLayer = cc.Layer.extend({
         this.addChild(title, 0);
 
         var buildings = new cc.Sprite('#buildings.png');
-        buildings.attr({x: size.width / 2, y: 0, anchorX: 0.5, anchorY: 0});
+        buildings.attr({x: size.width / 2, y: -200, anchorX: 0.5, anchorY: 0});
         this.addChild(buildings, 0);
 
         this._cloud1 = new cc.Sprite('#bg_cloud1.png');

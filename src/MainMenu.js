@@ -2,6 +2,7 @@
  * Created by yuxinyu on 3/27.
  */
 var MainMenuLayer = cc.Layer.extend({
+    _random: null,
     _superman: null,
 
     ctor: function () {
@@ -38,7 +39,14 @@ var MainMenuLayer = cc.Layer.extend({
         this._superman.setScale(0.5);
         this.addChild(this._superman, 11, 4);
         this._superman.attr({x: size.width / 2 - 400, y: Math.random() * size.height / 2, anchorX: 0, anchorY: 0});
-        this._superman.runAction(cc.moveBy(5, cc.p(size.width, 0)));
+        // 动画序列
+        var ac0 = cc.callFunc(this.onChangeY, this);
+        var ac1 = cc.moveBy(5, cc.p(size.width, 0));
+        var ac2 = cc.toggleVisibility();
+        var ac3 = cc.delayTime(Math.floor(Math.random() * 10) + 10);
+        var ac4 = cc.toggleVisibility();
+        var seq = cc.sequence(ac0, ac1, ac2, ac3, ac4);
+        this._superman.runAction(cc.repeatForever(seq));
 
         // 文字
         var play_txt = new cc.LabelBMFont('PLAY', res.charmap_fnt);
@@ -64,6 +72,10 @@ var MainMenuLayer = cc.Layer.extend({
         this.schedule(this.update, 0.1);
 
         return true;
+    },
+    onChangeY: function(){
+        var random = Math.random()*(size.height-20) + 10;
+        this._superman.runAction(cc.place(-15, random));
     },
 
     onPlay: function () {
@@ -91,20 +103,6 @@ var MainMenuLayer = cc.Layer.extend({
         var scene = new cc.Scene();
         scene.addChild(new SettingLayer());
         cc.director.runScene(new cc.TransitionFade(0.5, scene));
-    },
-
-    update: function () {
-        if (this._superman.x > size.width - 1) {
-            this._superman.runAction(cc.toggleVisibility);
-            this._superman.y = Math.random() * size.height;
-            this._superman.x = 0;
-            var tamp =  Math.floor(Math.random() * 10) + 10;
-            this.schedule(function () {
-                this._superman.runAction(cc.moveBy(5, cc.p(size.width, 0)));
-                this._superman.runAction(cc.toggleVisibility);
-            }, 0.0, 0, tamp);
-            cc.place()
-        }
     }
 });
 

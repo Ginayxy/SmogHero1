@@ -15,6 +15,7 @@
         "src/config/GameConfig.js",
         "src/MainMenu.js",
         "src/SettingLayer.js",
-        "src/ShopLayer.js"
+        "src/ShopLayer.js",
+        "src/GamePlay.js"
     ]
 }
