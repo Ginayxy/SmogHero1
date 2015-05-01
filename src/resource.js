@@ -34,7 +34,7 @@ var sound_res_iOS = {
     Drop_eff: "res/sound/drop.caf",
     Fly_eff: "res/sound/fly.caf",
     Over_eff: "res/sound/over.caf",
-    Play_music: "res/sound/play.caf"
+    Play_music: "res/sound/play.aif"
 };
 
 var sound_res_Other = {

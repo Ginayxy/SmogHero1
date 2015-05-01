@@ -5,7 +5,7 @@
 var GamePlayLayer = cc.Layer.extend({
 
     _tmpScore:0,
-    _state:SH.GAME_STATE.PLAY,
+    _state:null,
 
     ctor: function () {
         this._super();
@@ -35,7 +35,8 @@ var GamePlayLayer = cc.Layer.extend({
 
     playMusic: function(){
         if(SH.MUSIC){
-            cc.audioEngine.playBackgroundMusic(sound_res.Play_music, true);
+            var audioEngine = cc.audioEngine;
+            audioEngine.playMusic(sound_res.Play_music, true);
         }
     }
 });

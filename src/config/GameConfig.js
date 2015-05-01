@@ -22,28 +22,28 @@ SH.SOUND = true;
 SH.MUSIC = true;
 
 //role
-SH.ROLE = {
+SH.ROLE_NAME = {
     BATMAN : 1,
     SUPERMAN: 2
 };
-
+SH.ROLE =SH.ROLE_NAME.BATMAN;
+    
 SH.GROUND_HEIGHT = 124;
 SH.HERO_START_X = 120;
 
 if(typeof LayerTag == "undefined") {
     var LayerTag = {};
-    LayerTag.background = 0;
-    LayerTag.Animation = 1;
-    LayerTag.GameLayer = 2;
-    LayerTag.Status = 3;
+    LayerTag.background = 50;
+    LayerTag.Animation = 51;
+    LayerTag.GameLayer = 52;
+    LayerTag.Status = 53;
 }
 
 // collision type for chipmunk
 if(typeof SpriteTag == "undefined") {
     var SpriteTag = {};
-    SpriteTag.hero = 0;
-    SpriteTag.drop = 1;
-    SpriteTag.dart = 2;
-    SpriteTag.mud = 3;
+    SpriteTag.hero = 100;
+    SpriteTag.drop = 101;
+    SpriteTag.dart = 102;
+    SpriteTag.mud = 103;
 }
-
