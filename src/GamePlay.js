@@ -34,12 +34,12 @@ var GamePlayScene = cc.Scene.extend({
         this.space = new cp.Space();
         // Gravity
         this.space.gravity = cp.v(0, -350);
-        // set up Walls
-        var wallBottom = new cp.SegmentShape(this.space.staticBody,
-            cp.v(0, SH.GROUND_HEIGHT),// start point
-            cp.v(4294967295, SH.GROUND_HEIGHT),// MAX INT:4294967295
-            0);// thickness of wall
-        this.space.addStaticShape(wallBottom);
+        //// set up Walls
+        //var wallBottom = new cp.SegmentShape(this.space.staticBody,
+        //    cp.v(0, SH.GROUND_HEIGHT),// start point
+        //    cp.v(4294967295, SH.GROUND_HEIGHT),// MAX INT:4294967295
+        //    0);// thickness of wall
+        //this.space.addStaticShape(wallBottom);
 
         // setup chipmunk CollisionHandler
         this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.DROP,

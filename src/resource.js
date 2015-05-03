@@ -33,6 +33,7 @@ var res = {
 var sound_res = {};
 var sound_res_iOS = {
     Click_eff: "res/sound/click.caf",
+    Jump_eff: "res/sound/jump.caf",
     Coin_eff: "res/sound/coin.caf",
     Drop_eff: "res/sound/drop.caf",
     Fly_eff: "res/sound/fly.caf",
@@ -42,6 +43,7 @@ var sound_res_iOS = {
 
 var sound_res_Other = {
     Click_eff: "res/sound/click.ogg",
+    Jump_eff: "res/sound/jump.ogg",
     Coin_eff: "res/sound/coin.ogg",
     Drop_eff: "res/sound/drop.ogg",
     Fly_eff: "res/sound/fly.ogg",

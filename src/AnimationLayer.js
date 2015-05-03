@@ -11,6 +11,7 @@ var AnimationLayer = cc.Layer.extend({
     _hero_spr: null,
     _hero_body: null,
     _hero_shape: null,
+    _hero_state:null,
 
     ctor: function (space) {
         this._super();
@@ -29,6 +30,7 @@ var AnimationLayer = cc.Layer.extend({
         // 重置全局变量
         //SH.SCORE = 0;
         this._state = SH.GAME_STATE.PLAY;
+        this._hero_state = SH.HERO_STATE.STOP
 
         // 状态层
         var pause_btn = new cc.MenuItemImage('#icon_pause.png', '#icon_pause_n.png', this.onPause, this);
@@ -76,6 +78,14 @@ var AnimationLayer = cc.Layer.extend({
         this.scheduleUpdate();
     },
     onTouchBegan: function(){
+        if(this._hero_state == SH.HERO_STATE.STOP){
+            this._hero_state = SH.HERO_STATE.JUMP;
+            //var jump1 =
+            var jump2 = new cc.JumpBy(2, cc.p(300, 0), 50, 4);
+            this._hero_spr.runAction(jump2);
+        }else if(this._hero_state == SH.HERO_STATE.JUMP){
+            this._hero_state = SH.HERO_STATE.FLY;
+        }
 
     },
 
