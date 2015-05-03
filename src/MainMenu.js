@@ -27,7 +27,7 @@ var MainMenuLayer = cc.Layer.extend({
         bg.changeHeight(1136);
         title.setPosition(size.width / 2, 900);
         buildings.attr({x: size.width / 2, y: 0, anchorX: 0.5, anchorY: 0});
-        buildings.setOpacity(210);
+        //buildings.setOpacity(210);
         rope.attr({x: size.width / 2, y: 950, anchorX: 0.5, anchorY: 1});
         this.addChild(bg, 0);
         this.addChild(title, 2);
@@ -36,9 +36,9 @@ var MainMenuLayer = cc.Layer.extend({
 
         // 动画
         this._superman = new cc.Sprite('#role_superman_2.png');
-        this._superman.setScale(0.5);
+        this._superman.setScale(0.70);
         this.addChild(this._superman, 11, 4);
-        this._superman.attr({x: size.width / 2 - 400, y: Math.random() * size.height / 2, anchorX: 0, anchorY: 0});
+        this._superman.attr({x: size.width / 2 - 400, y: Math.random() * size.height / 2, anchorX: 0, anchorY: 0.5});
         // 动画序列
         var ac0 = cc.callFunc(this.onChangeY, this);
         var ac1 = cc.moveBy(5, cc.p(size.width, 0));

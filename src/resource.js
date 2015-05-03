@@ -1,3 +1,6 @@
+/**
+ * Created by yuxinyu on 3/27.
+ */
 var res = {
 
     //mainMenu

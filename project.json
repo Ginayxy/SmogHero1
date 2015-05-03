@@ -14,8 +14,10 @@
         "src/resource.js",
         "src/config/GameConfig.js",
         "src/MainMenu.js",
-        "src/SettingLayer.js",
-        "src/ShopLayer.js",
-        "src/GamePlay.js"
+        "src/SettingScene.js",
+        "src/ShopScene.js",
+        "src/GamePlay.js",
+        "src/BackgroundLayer.js",
+        "src/AnimationLayer.js"
     ]
 }
