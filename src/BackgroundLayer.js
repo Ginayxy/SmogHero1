@@ -3,7 +3,7 @@
  */
 var BackgroundLayer = cc.Layer.extend({
     space:null,
-    mapIndex: null,
+    spriteSheet: null,
     buildingB: null,
     buildingF: null,
 
@@ -29,6 +29,11 @@ var BackgroundLayer = cc.Layer.extend({
         this.buildingF.attr({x: 0, y: 0, anchorX: 0, anchorY: 0});
         this.addChild(this.buildingB, 1);
         this.addChild(this.buildingF, 1);
+
+        // Obj BatchNode
+        cc.spriteFrameCache.addSpriteFrames(res.Obj_plist);
+        this.spriteSheet = new cc.SpriteBatchNode(res.Obj_png);
+        this.addChild(this.spriteSheet);
 
         //this.scheduleUpdate();
     },
