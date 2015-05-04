@@ -8,10 +8,10 @@ SH.SCALE = 0.8;
 SH.MUD_Y = 1036;
 
 //game state
-SH.GAME_STATE = { HOME: 0, PLAY: 1, OVER: 2 };
+SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
 
 //hero state
-SH.HERO_STATE = { STOP: 0, JUMP: 1, FLY: 2, DIE: 3 };
+SH.HERO_STATE = {STOP: 0, JUMP: 1, FLY: 2, DIE: 3};
 
 //score
 SH.SCORE = 0;
@@ -35,15 +35,16 @@ SH.HERO_START_X = 240;
 
 //Tag
 SH.LAYER_TAG = {
-    BACKGROUND : 50,
-    ANIMATION : 51
+    BACKGROUND: 50,
+    ANIMATION: 51,
+    STATUS: 52
 };
 
 // collision type for chipmunk
 SH.SPRITE_TAG = {
-    HERO:100,
-    DROP:101,
-    OTHER:102,
-    SAND:104,
-    ROCK:105
+    HERO: 100,
+    DROP: 101,
+    OTHER: 102,
+    SAND: 104,
+    ROCK: 105
 };

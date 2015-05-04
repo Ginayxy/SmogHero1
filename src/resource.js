@@ -32,12 +32,12 @@ var res = {
 
 var sound_res = {};
 var sound_res_iOS = {
-    Click_eff: "res/sound/click.caf",
-    Jump_eff: "res/sound/jump.caf",
-    Coin_eff: "res/sound/coin.caf",
-    Drop_eff: "res/sound/drop.caf",
-    Fly_eff: "res/sound/fly.caf",
-    Over_eff: "res/sound/over.caf",
+    Click_eff: "res/sound/click.mp3",
+    Jump_eff: "res/sound/jump.mp3",
+    Coin_eff: "res/sound/coin.mp3",
+    Drop_eff: "res/sound/drop.mp3",
+    Fly_eff: "res/sound/fly.mp3",
+    Over_eff: "res/sound/over.mp3",
     Play_music: "res/sound/play.aif"
 };
 
@@ -51,9 +51,11 @@ var sound_res_Other = {
     Play_music: "res/sound/play.mp3"
 };
 
-if(cc.sys.os == cc.sys.OS_IOS){
+if(cc.sys.os == cc.sys.OS_IOS || cc.sys.browserType == cc.sys.BROWSER_TYPE_SAFARI){
+    //alert("ios");
     sound_res = sound_res_iOS;
 }else{
+    //alert("else");
     sound_res = sound_res_Other;
 }
 

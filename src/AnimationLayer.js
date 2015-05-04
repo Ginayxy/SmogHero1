@@ -3,27 +3,25 @@
  */
 
 var AnimationLayer = cc.Layer.extend({
-    space:null,
-    spriteSheet:null,
-    _score_txt: null,
-    _best_txt:null,
-    _tmpScore: 0,
+    space: null,
+    spriteSheet: null,
     _state: null,
     _hero_spr: null,
     _hero_body: null,
     _hero_shape: null,
-    _hero_state:null,
+    _hero_state: null,
 
-    jumpAction:null,
-    flyAction:null,
+    jumpUpAction: null,
+    jumpDownAction: null,
+    flyAction: null,
 
     ctor: function (space) {
         this._super();
         this.space = space;
         this.init();
+        //开启chipmunk调试模式
         this._debugNode = new cc.PhysicsDebugNode(this.space);
         this._debugNode.setVisible(true);
-        // Parallax ratio and offset
         this.addChild(this._debugNode, 10);
     },
     init: function () {
@@ -40,112 +38,94 @@ var AnimationLayer = cc.Layer.extend({
         this._state = SH.GAME_STATE.PLAY;
         this._hero_state = SH.HERO_STATE.STOP;
 
-        // 状态层
-        var pause_btn = new cc.MenuItemImage('#icon_pause.png', '#icon_pause_n.png', this.onPause, this);
-        pause_btn.attr({x: 100, y: SH.MUD_Y, scale: SH.SCALE});
-        var pause_menu = new cc.Menu(pause_btn);
-        pause_menu.setPosition(0, 0);
-        this.addChild(pause_menu, 1000);
-        var drop_icon = new cc.Sprite("#icon_drops_n.png");
-        drop_icon.attr({x: size.width - 230, y: SH.MUD_Y, scale: SH.SCALE});
-        this.addChild(drop_icon, 1000);
-        this._score_txt = new cc.LabelBMFont("0", res.charmap_fnt);
-        this._score_txt.attr({x: size.width - 75, y: SH.MUD_Y, anchorX:1, anchorY:0.1, scale: SH.SCALE, color:cc.color(255, 255, 255)});
-        this.addChild(this._score_txt, 1000);
-        this._best_txt = new cc.LabelBMFont("BEST: "+SH.SCORE, res.charmap_fnt);
-        this._best_txt.attr({x: size.width - 75, y: SH.MUD_Y - 22, anchorX:1, anchorY:1, scale: 0.3, color:cc.color(255, 255, 255)});
-        this.addChild(this._best_txt, 1000);
-
         // 角色 添加物理引擎
-        this._hero_spr = new cc.PhysicsSprite("#role_"+SH.ROLE+"_0.png");
+        this._hero_spr = new cc.PhysicsSprite("#role_" + SH.ROLE + "_0.png");
         var contentSize = this._hero_spr.getContentSize();
-        // init body
-        this._hero_body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this._hero_body.p = cc.p(SH.HERO_START_X - 100, 508 + contentSize.height / 2);
-        //this._hero_body.applyImpulse(cp.v(150, 0), cp.v(0, 0));//run speed
+        // 初始化 body
+        this._hero_body = new cp.Body(1, cp.momentForBox(1, contentSize.height, contentSize.height));
+        this._hero_body.p = cc.p(SH.HERO_START_X, 508 + contentSize.height / 2);
         this.space.addBody(this._hero_body);
-        //init shape
-        this._hero_shape = new cp.BoxShape(this._hero_body, contentSize.width, contentSize.height);
+        // 初始化 shape
+        this._hero_shape = new cp.BoxShape(this._hero_body, contentSize.height, contentSize.height);
+        this._hero_shape.setCollisionType(SH.SPRITE_TAG.HERO);
         this.space.addShape(this._hero_shape);
         this._hero_spr.setBody(this._hero_body);
-        //this._hero_spr.runAction(this.runningAction);
-
+        // 加入至spriteSheet
         this.spriteSheet.addChild(this._hero_spr);
+        this._hero_body.data = this._hero_spr;
 
-
+        // 触摸监听事件 TOUCH_ONE_BY_ONE
         cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
-            onTouchBegan: this.onTouchBegan
+            onTouchBegan: this.onTouchBegan,
+            onTouchEnded: this.onTouchEnded
         }, this);
 
         // 计时器
         this.scheduleUpdate();
     },
-    onExit:function() {
-        this.jumpAction.release();
+    onExit: function () {
+        this.jumpUpAction.release();
+        this.jumpDownAction.release();
         this.flyAction.release();
         this._super();
     },
-    initAction:function () {
-        // init runningAction
+    onTouchBegan: function (touch, event) {
+        event.getCurrentTarget().jump();
+    },
+    onTouchEnded: function (touch, event) {
+        if (this._hero_state == SH.HERO_STATE.FLY) {
+            this._hero_body.resetForces();
+        }
+    },
+
+    initAction: function () {
+        // 初始化动画 jumpUpAction setRestoreOriginalFrame默认false 所以不设置
         var animFrames = [];
-        // num equal to spriteSheet
         for (var i = 0; i < 3; i++) {
-            var str = "role_"+SH.ROLE+"_"+ i + ".png";
+            var str = "role_" + SH.ROLE + "_" + i + ".png";
             var frame = cc.spriteFrameCache.getSpriteFrame(str);
             animFrames.push(frame);
         }
-        //TODO: gai!!!
         var animation = new cc.Animation(animFrames, 0.1);
-        this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-        this.runningAction.retain();
-
-        // init jumpUpAction
-        animFrames = [];
-        for (var i = 0; i < 4; i++) {
-            var str = "runnerJumpUp" + i + ".png";
-            var frame = cc.spriteFrameCache.getSpriteFrame(str);
-            animFrames.push(frame);
-        }
-
-        animation = new cc.Animation(animFrames, 0.2);
         this.jumpUpAction = new cc.Animate(animation);
         this.jumpUpAction.retain();
 
-        // init jumpDownAction
-        animFrames = [];
-        for (var i = 0; i < 2; i++) {
-            var str = "runnerJumpDown" + i + ".png";
-            var frame = cc.spriteFrameCache.getSpriteFrame(str);
-            animFrames.push(frame);
-        }
-
-        animation = new cc.Animation(animFrames, 0.3);
+        // 初始化动画 jumpDownAction
+        animFrames.reverse();   // 数组逆序
+        animation = new cc.Animation(animFrames, 0.1);
         this.jumpDownAction = new cc.Animate(animation);
         this.jumpDownAction.retain();
     },
-
-
-    onTouchBegan: function(){
-        if(this._hero_state == SH.HERO_STATE.STOP){
+    jump: function () {
+        // 跳跃 1.STOP状态下执行跳跃（向上冲力） 2.JUMP状态下浮空（向上浮力）
+        if (this._hero_state == SH.HERO_STATE.STOP) {
+            this._hero_body.applyImpulse(cp.v(150, 400), cp.v(0, 0));
             this._hero_state = SH.HERO_STATE.JUMP;
-            //var jump1 =
-            var jump2 = new cc.JumpBy(2, cc.p(300, 0), 50, 4);
-            this._hero_spr.runAction(jump2);
-        }else if(this._hero_state == SH.HERO_STATE.JUMP){
+            this._hero_spr.stopAllActions();
+            this._hero_spr.runAction(this.jumpUpAction);
+            if (SH.SOUND) {
+                cc.audioEngine.playEffect(sound_res.Jump_eff);
+            }
+        } else if (this._hero_state == SH.HERO_STATE.JUMP) {
+            this._hero_body.applyForce(cp.v(0, 35), cp.v(0, 0));
             this._hero_state = SH.HERO_STATE.FLY;
         }
-
     },
 
-    update:function (dt) {
-        if (this._state == SH.GAME_STATE.PLAY) {
-            //this.checkIsCollide();
-            //this.removeInactiveUnit(dt);
-            //this.checkIsReborn();
-            this.updateUI();
-            //this._movingBackground(dt);
+    update: function (dt) {
+
+        // 更新角色状态
+        var vel = this._hero_body.getVel();
+        if (this._hero_state == SH.HERO_STATE.JUMP || this._hero_state == SH.HERO_STATE.FLY) {
+            if (vel.y == 0) {
+                this._hero_state = SH.HERO_STATE.STOP;
+                this._hero_spr.stopAllActions();
+                this._hero_spr.runAction(this.jumpDownAction);
+            }
+        } else if (this._hero_state == SH.HERO_STATE.STOP) {
+            this._hero_body.setVel(cp.v(0, 0));
         }
     },
 
@@ -153,16 +133,8 @@ var AnimationLayer = cc.Layer.extend({
 
     },
 
-    updateUI:function () {
-        if (this._tmpScore > SH.SCORE) {
-            SH.SCORE += 1;
-        }
-        this._score_txt.setString(this._tmpScore);
-        this._best_txt.setString("BEST: " + SH.SCORE);
-    },
-
     // 计算角色的偏移
-    getEyeX: function(){
+    getEyeX: function () {
         return this._hero_spr.getPositionX() - SH.HERO_START_X;
     }
 });

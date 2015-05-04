@@ -12,12 +12,12 @@ var GamePlayScene = cc.Scene.extend({
         this._super();
         this.initPhysics();
         this.gameLayer = new cc.Layer();
-
+        //this.gameLayer.setPosition(0,0);
         //add three layer in the right order
         this.gameLayer.addChild(new BackgroundLayer(this.space), 0, SH.LAYER_TAG.BACKGROUND);
         this.gameLayer.addChild(new AnimationLayer(this.space), 0, SH.LAYER_TAG.ANIMATION);
         this.addChild(this.gameLayer);
-        //this.addChild(new StatusLayer(), 0, TagOfLayer.Status);
+        this.addChild(new StatusLayer(), 0, SH.LAYER_TAG.STATUS);
 
         //add background music
         if (SH.MUSIC) {
@@ -25,7 +25,7 @@ var GamePlayScene = cc.Scene.extend({
             audioEngine.playMusic(sound_res.Play_music, true);
         }
 
-        //this.scheduleUpdate();
+        this.scheduleUpdate();
 
     },
 
@@ -34,12 +34,12 @@ var GamePlayScene = cc.Scene.extend({
         this.space = new cp.Space();
         // Gravity
         this.space.gravity = cp.v(0, -350);
-        //// set up Walls
-        //var wallBottom = new cp.SegmentShape(this.space.staticBody,
-        //    cp.v(0, SH.GROUND_HEIGHT),// start point
-        //    cp.v(4294967295, SH.GROUND_HEIGHT),// MAX INT:4294967295
-        //    0);// thickness of wall
-        //this.space.addStaticShape(wallBottom);
+        // set up Walls
+        var wallBottom = new cp.SegmentShape(this.space.staticBody,
+            cp.v(0, SH.GROUND_HEIGHT),// start point
+            cp.v(4294967295, SH.GROUND_HEIGHT),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallBottom);
 
         // setup chipmunk CollisionHandler
         this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.DROP,

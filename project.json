@@ -18,6 +18,7 @@
         "src/ShopScene.js",
         "src/GamePlay.js",
         "src/BackgroundLayer.js",
-        "src/AnimationLayer.js"
+        "src/AnimationLayer.js",
+        "src/StatusLayer.js"
     ]
 }
