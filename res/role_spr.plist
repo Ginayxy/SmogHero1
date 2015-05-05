@@ -7,11 +7,11 @@
             <key>role_batman_0.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{180,96},{96,140}}</string>
+                <string>{{2,2},{96,140}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{96,140}}</string>
                 <key>sourceSize</key>
@@ -20,20 +20,20 @@
             <key>role_batman_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,194},{136,124}}</string>
+                <string>{{100,2},{136,140}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{136,124}}</string>
+                <string>{{0,0},{136,140}}</string>
                 <key>sourceSize</key>
-                <string>{136,124}</string>
+                <string>{136,140}</string>
             </dict>
             <key>role_batman_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{176,148}}</string>
+                <string>{{238,2},{176,148}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,41 +46,41 @@
             <key>role_superman_0.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{246,194},{96,132}}</string>
+                <string>{{416,2},{96,140}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{96,132}}</string>
+                <string>{{0,0},{96,140}}</string>
                 <key>sourceSize</key>
-                <string>{96,132}</string>
+                <string>{96,140}</string>
             </dict>
             <key>role_superman_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{128,194},{136,116}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{136,116}}</string>
-                <key>sourceSize</key>
-                <string>{136,116}</string>
-            </dict>
-            <key>role_superman_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{180,2},{160,92}}</string>
+                <string>{{514,2},{136,140}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{160,92}}</string>
+                <string>{{0,0},{136,140}}</string>
                 <key>sourceSize</key>
-                <string>{160,92}</string>
+                <string>{136,140}</string>
+            </dict>
+            <key>role_superman_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{652,2},{160,140}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{160,140}}</string>
+                <key>sourceSize</key>
+                <string>{160,140}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -90,9 +90,9 @@
             <key>realTextureFileName</key>
             <string>role_spr.png</string>
             <key>size</key>
-            <string>{344,344}</string>
+            <string>{814,152}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:a23bd26745efb600059d1306a68bee68$</string>
+            <string>$TexturePacker:SmartUpdate:25dd3549b858f17a8b2de9c5eb28e783$</string>
             <key>textureFileName</key>
             <string>role_spr.png</string>
         </dict>

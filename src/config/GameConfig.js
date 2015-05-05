@@ -6,6 +6,8 @@ var SH = SH || {};
 
 SH.SCALE = 0.8;
 SH.MUD_Y = 1036;
+SH.F_WIDTH = 1720;  //背景图1宽度
+SH.B_WIDTH = 2276;  //背景图2宽度
 
 //game state
 SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
@@ -36,8 +38,9 @@ SH.HERO_START_X = 260;
 //Tag
 SH.LAYER_TAG = {
     BACKGROUND: 50,
-    ANIMATION: 51,
-    STATUS: 52
+    OBJECT: 51,
+    ANIMATION: 52,
+    STATUS: 53
 };
 
 // collision type for chipmunk

@@ -13,8 +13,9 @@ var GamePlayScene = cc.Scene.extend({
         this.initPhysics();
         this.gameLayer = new cc.Layer();
         //add three layer in the right order
-        this.gameLayer.addChild(new BackgroundLayer(this.space), 0, SH.LAYER_TAG.BACKGROUND);
+        this.gameLayer.addChild(new ObjectLayer(this.space), 0, SH.LAYER_TAG.OBJECT);
         this.gameLayer.addChild(new AnimationLayer(this.space), 0, SH.LAYER_TAG.ANIMATION);
+        this.addChild(new BackgroundLayer(), 0, SH.LAYER_TAG.BACKGROUND);
         this.addChild(this.gameLayer);
         this.addChild(new StatusLayer(), 0, SH.LAYER_TAG.STATUS);
 
@@ -83,13 +84,13 @@ var GamePlayScene = cc.Scene.extend({
 
         for(var i = 0; i < this.shapesToRemove.length; i++) {
             var shape_remove = this.shapesToRemove[i];
-            this.gameLayer.getChildByTag(SH.LAYER_TAG.BACKGROUND).removeObjectByShape(shape_remove);
+            this.gameLayer.getChildByTag(SH.LAYER_TAG.OBJECT).removeObjectByShape(shape_remove);
         }
         this.shapesToRemove = [];
 
         for(var i = 0; i < this.shapesToDrop.length; i++) {
             var shape_drop = this.shapesToDrop[i];
-            this.gameLayer.getChildByTag(SH.LAYER_TAG.BACKGROUND).dropObjectByShape(shape_drop);
+            this.gameLayer.getChildByTag(SH.LAYER_TAG.OBJECT).dropObjectByShape(shape_drop);
         }
         this.shapesToRemove = [];
 

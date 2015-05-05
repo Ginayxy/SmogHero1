@@ -81,11 +81,11 @@ var AnimationLayer = cc.Layer.extend({
         this._super();
     },
     onTouchBegan: function (event) {
-        cc.log("onTouchBegan");
+        //cc.log("onTouchBegan");
         event.getCurrentTarget().jump();
     },
     onTouchEnded: function (event) {
-        cc.log("onTouchEnd");
+        //cc.log("onTouchEnd");
         if (this._hero_state == SH.HERO_STATE.FLY) {
             this._hero_body.resetForces();
         }
@@ -93,20 +93,25 @@ var AnimationLayer = cc.Layer.extend({
 
     initAction: function () {
         // 初始化动画 jumpUpAction setRestoreOriginalFrame默认false 所以不设置
-        var animFrames = [];
+        var animFrames1 = [];
         for (var i = 0; i < 3; i++) {
-            var str = "role_" + SH.ROLE + "_" + i + ".png";
-            var frame = cc.spriteFrameCache.getSpriteFrame(str);
-            animFrames.push(frame);
+            var str1 = "role_" + SH.ROLE + "_" + i + ".png";
+            var frame1 = cc.spriteFrameCache.getSpriteFrame(str1);
+            animFrames1.push(frame1);
         }
-        var animation = new cc.Animation(animFrames, 0.1);
-        this.jumpUpAction = new cc.Animate(animation);
+        var animation1 = new cc.Animation(animFrames1, 0.1);
+        this.jumpUpAction = new cc.Animate(animation1);
         this.jumpUpAction.retain();
 
         // 初始化动画 jumpDownAction
-        animFrames.reverse();   // 数组逆序
-        animation = new cc.Animation(animFrames, 0.1);
-        this.jumpDownAction = new cc.Animate(animation);
+        var animFrames2 = [];
+        for (var i = 1; i > -1; i--) {
+            var str2 = "role_" + SH.ROLE + "_" + i + ".png";
+            var frame2 = cc.spriteFrameCache.getSpriteFrame(str2);
+            animFrames2.push(frame2);
+        }
+        var animation2 = new cc.Animation(animFrames2, 0.13);
+        this.jumpDownAction = new cc.Animate(animation2);
         this.jumpDownAction.retain();
     },
     jump: function () {
