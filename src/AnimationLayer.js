@@ -37,6 +37,7 @@ var AnimationLayer = cc.Layer.extend({
         //SH.SCORE = 0;
         this._state = SH.GAME_STATE.PLAY;
         this._hero_state = SH.HERO_STATE.STOP;
+        SH.HERO_START_X = size.width/2 - 100;
 
         // 角色 添加物理引擎
         this._hero_spr = new cc.PhysicsSprite("#role_" + SH.ROLE + "_0.png");
@@ -55,12 +56,20 @@ var AnimationLayer = cc.Layer.extend({
         this._hero_body.data = this._hero_spr;
 
         // 触摸监听事件 TOUCH_ONE_BY_ONE
-        cc.eventManager.addListener({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            swallowTouches: true,
-            onTouchBegan: this.onTouchBegan,
-            onTouchEnded: this.onTouchEnded
-        }, this);
+        if( 'touches' in cc.sys.capabilities ) {
+            cc.eventManager.addListener({
+                event: cc.EventListener.TOUCH_ONE_BY_ONE,
+                swallowTouches: true,
+                onTouchBegan: this.onTouchBegan,
+                onTouchEnded: this.onTouchEnded
+            }, this);
+        } else {
+            cc.eventManager.addListener({
+                event: cc.EventListener.MOUSE,
+                onMouseDown: this.onTouchBegan,
+                onMouseUp: this.onTouchEnded
+            }, this);
+        }
 
         // 计时器
         this.scheduleUpdate();
@@ -71,10 +80,12 @@ var AnimationLayer = cc.Layer.extend({
         this.flyAction.release();
         this._super();
     },
-    onTouchBegan: function (touch, event) {
+    onTouchBegan: function (event) {
+        cc.log("onTouchBegan");
         event.getCurrentTarget().jump();
     },
-    onTouchEnded: function (touch, event) {
+    onTouchEnded: function (event) {
+        cc.log("onTouchEnd");
         if (this._hero_state == SH.HERO_STATE.FLY) {
             this._hero_body.resetForces();
         }
@@ -109,8 +120,8 @@ var AnimationLayer = cc.Layer.extend({
                 cc.audioEngine.playEffect(sound_res.Jump_eff);
             }
         } else if (this._hero_state == SH.HERO_STATE.JUMP) {
-            this._hero_body.applyForce(cp.v(0, 35), cp.v(0, 0));
             this._hero_state = SH.HERO_STATE.FLY;
+            this._hero_body.applyForce(cp.v(0, 220), cp.v(0, 0));
         }
     },
 
@@ -126,6 +137,7 @@ var AnimationLayer = cc.Layer.extend({
             }
         } else if (this._hero_state == SH.HERO_STATE.STOP) {
             this._hero_body.setVel(cp.v(0, 0));
+            this._hero_body.resetForces();
         }
     },
 

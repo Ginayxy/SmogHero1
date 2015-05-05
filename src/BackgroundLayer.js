@@ -3,6 +3,7 @@
  */
 var BackgroundLayer = cc.Layer.extend({
     space:null,
+    objects: null,
     spriteSheet: null,
     buildingB: null,
     buildingF: null,
@@ -10,6 +11,7 @@ var BackgroundLayer = cc.Layer.extend({
     ctor: function (space) {
         this._super();
         this.space = space;
+        this.objects = [];
         this.init();
     },
 
