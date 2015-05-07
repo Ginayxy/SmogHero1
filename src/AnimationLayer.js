@@ -13,7 +13,7 @@ var AnimationLayer = cc.Layer.extend({
 
     jumpUpAction: null,
     jumpDownAction: null,
-    flyAction: null,
+
 
     ctor: function (space) {
         this._super();
@@ -21,7 +21,7 @@ var AnimationLayer = cc.Layer.extend({
         this.init();
         //开启chipmunk调试模式
         this._debugNode = new cc.PhysicsDebugNode(this.space);
-        this._debugNode.setVisible(true);
+        this._debugNode.setVisible(false);
         this.addChild(this._debugNode, 10);
     },
     init: function () {
@@ -37,7 +37,7 @@ var AnimationLayer = cc.Layer.extend({
         //SH.SCORE = 0;
         this._state = SH.GAME_STATE.PLAY;
         this._hero_state = SH.HERO_STATE.STOP;
-        SH.HERO_START_X = size.width/2 - 100;
+        SH.HERO_START_X = size.width / 2 - 100;
 
         // 角色 添加物理引擎
         this._hero_spr = new cc.PhysicsSprite("#role_" + SH.ROLE + "_0.png");
@@ -56,18 +56,41 @@ var AnimationLayer = cc.Layer.extend({
         this._hero_body.data = this._hero_spr;
 
         // 触摸监听事件 TOUCH_ONE_BY_ONE
-        if( 'touches' in cc.sys.capabilities ) {
+        if ('touches' in cc.sys.capabilities) {
             cc.eventManager.addListener({
                 event: cc.EventListener.TOUCH_ONE_BY_ONE,
                 swallowTouches: true,
-                onTouchBegan: this.onTouchBegan,
-                onTouchEnded: this.onTouchEnded
+                onTouchBegan: function (touch, event) {
+                    if (touch.getLocationX() > 140 || touch.getLocationY() < 1000) {
+                        event.getCurrentTarget().jump();
+                    } else {
+                        return false;
+                    }
+                },
+                onTouchEnded: function (touch, event) {
+                    if (event.getCurrentTarget()._hero_state == SH.HERO_STATE.FLY) {
+                        event.getCurrentTarget()._hero_body.resetForces();
+                        event.getCurrentTarget()._hero_state = SH.HERO_STATE.JUMPDOWN;
+                    }
+                }
             }, this);
         } else {
             cc.eventManager.addListener({
                 event: cc.EventListener.MOUSE,
-                onMouseDown: this.onTouchBegan,
-                onMouseUp: this.onTouchEnded
+                onMouseDown: function (event) {
+                    if (event.getLocationX() > 140 || event.getLocationY() < 1000) {
+                        event.getCurrentTarget().jump();
+                    } else {
+                        return false;
+                    }
+                },
+                onMouseUp: function (event) {
+                    cc.log("onMouseUp, " + event.getCurrentTarget()._hero_state);
+                    if (event.getCurrentTarget()._hero_state == SH.HERO_STATE.FLY) {
+                        event.getCurrentTarget()._hero_body.resetForces();
+                        event.getCurrentTarget()._hero_state = SH.HERO_STATE.JUMPDOWN;
+                    }
+                }
             }, this);
         }
 
@@ -77,18 +100,7 @@ var AnimationLayer = cc.Layer.extend({
     onExit: function () {
         this.jumpUpAction.release();
         this.jumpDownAction.release();
-        this.flyAction.release();
         this._super();
-    },
-    onTouchBegan: function (event) {
-        //cc.log("onTouchBegan");
-        event.getCurrentTarget().jump();
-    },
-    onTouchEnded: function (event) {
-        //cc.log("onTouchEnd");
-        if (this._hero_state == SH.HERO_STATE.FLY) {
-            this._hero_body.resetForces();
-        }
     },
 
     initAction: function () {
@@ -117,16 +129,16 @@ var AnimationLayer = cc.Layer.extend({
     jump: function () {
         // 跳跃 1.STOP状态下执行跳跃（向上冲力） 2.JUMP状态下浮空（向上浮力）
         if (this._hero_state == SH.HERO_STATE.STOP) {
-            this._hero_body.applyImpulse(cp.v(150, 400), cp.v(0, 0));
-            this._hero_state = SH.HERO_STATE.JUMP;
+            this._hero_state = SH.HERO_STATE.JUMPUP;
+            this._hero_body.applyImpulse(cp.v(150, 450), cp.v(0, 0));
             this._hero_spr.stopAllActions();
             this._hero_spr.runAction(this.jumpUpAction);
             if (SH.SOUND) {
                 cc.audioEngine.playEffect(sound_res.Jump_eff);
             }
-        } else if (this._hero_state == SH.HERO_STATE.JUMP) {
+        } else if (this._hero_state == SH.HERO_STATE.JUMPUP) {
             this._hero_state = SH.HERO_STATE.FLY;
-            this._hero_body.applyForce(cp.v(0, 220), cp.v(0, 0));
+            this._hero_body.applyForce(cp.v(0, 300), cp.v(0, 0));
         }
     },
 
@@ -134,11 +146,15 @@ var AnimationLayer = cc.Layer.extend({
 
         // 更新角色状态
         var vel = this._hero_body.getVel();
-        if (this._hero_state == SH.HERO_STATE.JUMP || this._hero_state == SH.HERO_STATE.FLY) {
+        if(this._hero_state == SH.HERO_STATE.JUMPUP|| this._hero_state == SH.HERO_STATE.FLY){
+            if(vel.y<0.1){
+                this._hero_state = SH.HERO_STATE.JUMPDOWN;
+            }
+        } else if (this._hero_state == SH.HERO_STATE.JUMPDOWN || this._hero_state == SH.HERO_STATE.FLY) {
             if (vel.y == 0) {
-                this._hero_state = SH.HERO_STATE.STOP;
                 this._hero_spr.stopAllActions();
                 this._hero_spr.runAction(this.jumpDownAction);
+                this._hero_state = SH.HERO_STATE.STOP;
             }
         } else if (this._hero_state == SH.HERO_STATE.STOP) {
             this._hero_body.setVel(cp.v(0, 0));

@@ -89,8 +89,10 @@ var SettingLayer = cc.Layer.extend({
     },
 
     onBack: function () {
-        var audioEngine = cc.audioEngine;
-        audioEngine.playEffect(sound_res.Click_eff);
+        if(SH.SOUND){
+            var audioEngine = cc.audioEngine;
+            audioEngine.playEffect(sound_res.Click_eff);
+        }
         var scene = new MainMenuScene();
         cc.director.runScene(new cc.TransitionFade(0.5,scene));
     }

@@ -1,5 +1,5 @@
 /**
- * Created by asus on 2015/4/23.
+ * Created by asus on 2015/4/3.
  */
 var BackgroundLayer = cc.Layer.extend({
 

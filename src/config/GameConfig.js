@@ -13,7 +13,7 @@ SH.B_WIDTH = 2276;  //背景图2宽度
 SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
 
 //hero state
-SH.HERO_STATE = {STOP: 0, JUMP: 1, FLY: 2, DIE: 3};
+SH.HERO_STATE = {STOP: 0, JUMPUP: 1, JUMPDOWN: 2, FLY: 3, DIE: 4};
 
 //score
 SH.SCORE = 0;
@@ -40,7 +40,9 @@ SH.LAYER_TAG = {
     BACKGROUND: 50,
     OBJECT: 51,
     ANIMATION: 52,
-    STATUS: 53
+    STATUS: 53,
+    PAUSE: 54,
+    GAMEPLAY: 55
 };
 
 // collision type for chipmunk

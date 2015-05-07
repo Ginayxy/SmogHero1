@@ -20,6 +20,7 @@
         "src/BackgroundLayer.js",
         "src/ObjectLayer.js",
         "src/AnimationLayer.js",
-        "src/StatusLayer.js"
+        "src/StatusLayer.js",
+        "src/PauseLayer.js"
     ]
 }

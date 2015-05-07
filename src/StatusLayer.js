@@ -19,10 +19,10 @@ var StatusLayer = cc.Layer.extend({
         pause_btn.attr({x: 100, y: SH.MUD_Y, scale: SH.SCALE});
         var pause_menu = new cc.Menu(pause_btn);
         pause_menu.setPosition(0, 0);
-        this.addChild(pause_menu, 1000);
+        this.addChild(pause_menu);
         var drop_icon = new cc.Sprite("#icon_drops_n.png");
         drop_icon.attr({x: size.width - 230, y: SH.MUD_Y, scale: SH.SCALE});
-        this.addChild(drop_icon, 1000);
+        this.addChild(drop_icon);
         this._score_txt = new cc.LabelBMFont("0", res.charmap_fnt);
         this._score_txt.attr({
             x: size.width - 75,
@@ -32,7 +32,7 @@ var StatusLayer = cc.Layer.extend({
             scale: SH.SCALE,
             color: cc.color(255, 255, 255)
         });
-        this.addChild(this._score_txt, 1000);
+        this.addChild(this._score_txt);
         this._best_txt = new cc.LabelBMFont("BEST: " + SH.SCORE, res.charmap_fnt);
         this._best_txt.attr({
             x: size.width - 75,
@@ -42,7 +42,7 @@ var StatusLayer = cc.Layer.extend({
             scale: 0.3,
             color: cc.color(255, 255, 255)
         });
-        this.addChild(this._best_txt, 1000);
+        this.addChild(this._best_txt);
 
         this.scheduleUpdate();
     },
@@ -51,6 +51,18 @@ var StatusLayer = cc.Layer.extend({
         if (this._state == SH.GAME_STATE.PLAY) {
             this.updateUI();
         }
+    },
+
+    onPause: function(event){
+        if(SH.SOUND){
+            var audioEngine = cc.audioEngine;
+            audioEngine.playEffect(sound_res.Click_eff);
+        }
+        this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();
+        this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).pause();
+        var pauseLayer = new PauseLayer();
+        this.addChild(pauseLayer,1,SH.LAYER_TAG.PAUSE);
+        //event.stopPropagation();
     },
 
     updateUI: function () {
@@ -64,5 +76,6 @@ var StatusLayer = cc.Layer.extend({
     addScore: function(){
         this._tmpScore +=1;
     }
+
 
 });

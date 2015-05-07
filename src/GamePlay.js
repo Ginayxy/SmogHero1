@@ -1,5 +1,5 @@
 /**
- * Created by yuxinyu on 2015/5/3.
+ * Created by yuxinyu on 2015/4/3.
  */
 
 var GamePlayScene = cc.Scene.extend({
@@ -15,9 +15,9 @@ var GamePlayScene = cc.Scene.extend({
         //add three layer in the right order
         this.gameLayer.addChild(new ObjectLayer(this.space), 0, SH.LAYER_TAG.OBJECT);
         this.gameLayer.addChild(new AnimationLayer(this.space), 0, SH.LAYER_TAG.ANIMATION);
+        this.addChild(new StatusLayer(), 10, SH.LAYER_TAG.STATUS);
         this.addChild(new BackgroundLayer(), 0, SH.LAYER_TAG.BACKGROUND);
-        this.addChild(this.gameLayer);
-        this.addChild(new StatusLayer(), 0, SH.LAYER_TAG.STATUS);
+        this.addChild(this.gameLayer,0,SH.LAYER_TAG.GAMEPLAY);
 
         //add background music
         if (SH.MUSIC) {
@@ -33,7 +33,7 @@ var GamePlayScene = cc.Scene.extend({
     initPhysics:function() {
         this.space = new cp.Space();
         // Gravity
-        this.space.gravity = cp.v(0, -350);
+        this.space.gravity = cp.v(0, -550);
         // set up Walls
         var wallBottom = new cp.SegmentShape(this.space.staticBody,
             cp.v(0, SH.GROUND_HEIGHT),// start point
