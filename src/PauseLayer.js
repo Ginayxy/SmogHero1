@@ -39,24 +39,39 @@ var PauseLayer = cc.Layer.extend({
         this.addChild(pause_menu,1);
     },
     onResume: function () {
+        var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            var audioEngine = cc.audioEngine;
             audioEngine.playEffect(sound_res.Click_eff);
+            audioEngine.stopAllEffects();
         }
+        if(SH.MUSIC){
+            cc.log(audioEngine.isMusicPlaying());
+            audioEngine.resumeMusic();
+        }
+        this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).resume();
+        this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).resume();
         this.removeFromParent();
     },
     onHome: function () {
+        var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            var audioEngine = cc.audioEngine;
             audioEngine.playEffect(sound_res.Click_eff);
+            audioEngine.stopAllEffects();
+        }
+        if(SH.MUSIC){
+            audioEngine.stopMusic(SH.SOUNDID);
         }
         var scene = new MainMenuScene();
         cc.director.runScene(new cc.TransitionFade(0.5,scene));
     },
     onRole: function () {
+        var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            var audioEngine = cc.audioEngine;
             audioEngine.playEffect(sound_res.Click_eff);
+            audioEngine.stopAllEffects();
+        }
+        if(SH.MUSIC){
+            audioEngine.stopMusic();
         }
         var scene = new ShopScene();
         cc.director.runScene(new cc.TransitionFade(0.5,scene));

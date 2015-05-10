@@ -10,9 +10,11 @@ var res = {
     MMTitle_png: "res/MMTitle.png",
     MMButtons_plist: "res/buttons.plist",
     MMButtons_png: "res/buttons.png",
+
     //gamePlay
     GPBuildingB_png: "res/GPBuildingB.png",
     GPBuildingF_png: "res/GPBuildingF.png",
+    GPGround_png: "res/floor_low.png",
     Obj_plist: "res/obj_spr.plist",
     Obj_png: "res/obj_spr.png",
 

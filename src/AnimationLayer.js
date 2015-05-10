@@ -85,7 +85,7 @@ var AnimationLayer = cc.Layer.extend({
                     }
                 },
                 onMouseUp: function (event) {
-                    cc.log("onMouseUp, " + event.getCurrentTarget()._hero_state);
+                    //cc.log("onMouseUp, " + event.getCurrentTarget()._hero_state);
                     if (event.getCurrentTarget()._hero_state == SH.HERO_STATE.FLY) {
                         event.getCurrentTarget()._hero_body.resetForces();
                         event.getCurrentTarget()._hero_state = SH.HERO_STATE.JUMPDOWN;
@@ -146,8 +146,8 @@ var AnimationLayer = cc.Layer.extend({
 
         // 更新角色状态
         var vel = this._hero_body.getVel();
-        if(this._hero_state == SH.HERO_STATE.JUMPUP|| this._hero_state == SH.HERO_STATE.FLY){
-            if(vel.y<0.1){
+        if (this._hero_state == SH.HERO_STATE.JUMPUP || this._hero_state == SH.HERO_STATE.FLY) {
+            if (vel.y < -1) {
                 this._hero_state = SH.HERO_STATE.JUMPDOWN;
             }
         } else if (this._hero_state == SH.HERO_STATE.JUMPDOWN || this._hero_state == SH.HERO_STATE.FLY) {

@@ -21,8 +21,7 @@ var GamePlayScene = cc.Scene.extend({
 
         //add background music
         if (SH.MUSIC) {
-            var audioEngine = cc.audioEngine;
-            audioEngine.playMusic(sound_res.Play_music, true);
+            cc.audioEngine.playMusic(sound_res.Play_music, true);
         }
 
         this.scheduleUpdate();

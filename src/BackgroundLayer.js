@@ -9,8 +9,11 @@ var BackgroundLayer = cc.Layer.extend({
     buildingB_tmp: null,
     buildingF: null,
     buildingF_tmp: null,
+    ground:null,
+    ground_tmp:null,
     countF: 1,
     countB: 1,
+    countG: 1,
 
     ctor: function () {
         this._super();
@@ -35,10 +38,16 @@ var BackgroundLayer = cc.Layer.extend({
         this.buildingF_tmp = new cc.Sprite(res.GPBuildingF_png);
         this.buildingF.attr({x: 0, y: 0, anchorX: 0, anchorY: 0});
         this.buildingF_tmp.attr({x: SH.F_WIDTH, y: 0, anchorX: 0, anchorY: 0});
+        this.ground = new cc.Sprite(res.GPGround_png);
+        this.ground_tmp = new cc.Sprite(res.GPGround_png);
+        this.ground.attr({x: 0, y: SH.G_Y, anchorX: 0, anchorY: 0});
+        this.ground_tmp.attr({x: SH.G_WIDTH, y: SH.G_Y, anchorX: 0, anchorY: 0});
         this.addChild(this.buildingB, 1);
         this.addChild(this.buildingB_tmp, 1);
         this.addChild(this.buildingF, 2);
         this.addChild(this.buildingF_tmp, 2);
+        this.addChild(this.ground, 3);
+        this.addChild(this.ground_tmp, 3);
 
         this.scheduleUpdate();
     },
@@ -50,9 +59,11 @@ var BackgroundLayer = cc.Layer.extend({
         this.buildingF_tmp.setPosition(cc.p(-eyeX / 2 + this.countF * SH.F_WIDTH, 0));
         this.buildingB.setPosition(cc.p(-eyeX / 3 + (this.countB - 1) * SH.B_WIDTH, 0));
         this.buildingB_tmp.setPosition(cc.p(-eyeX / 3 + this.countB * SH.B_WIDTH, 0));
+        this.ground.setPosition(cc.p(-eyeX + (this.countG - 1) * SH.G_WIDTH, SH.G_Y));
+        this.ground_tmp.setPosition(cc.p(-eyeX + this.countG * SH.G_WIDTH, SH.G_Y));
         //cc.log("F:"+this.buildingF.getPositionX()+", F_tmp:"+this.buildingF_tmp.getPositionX());
 
-        // 背景滚动拼接
+        // 背景1滚动拼接
         var f = -this.buildingF.getPositionX();
         if (f > SH.F_WIDTH) {
             var temp_f = null;
@@ -62,7 +73,7 @@ var BackgroundLayer = cc.Layer.extend({
             this.buildingF_tmp = temp_f;
         }
 
-        // 背景滚动拼接
+        // 背景2滚动拼接
         var b = -this.buildingB.getPositionX();
         if (b > SH.B_WIDTH) {
             var temp_b = null;
@@ -70,6 +81,16 @@ var BackgroundLayer = cc.Layer.extend({
             temp_b = this.buildingB;
             this.buildingB = this.buildingB_tmp;
             this.buildingB_tmp = temp_b;
+        }
+
+        // 背景3滚动拼接
+        var g = -this.ground.getPositionX();
+        if (g > SH.G_WIDTH) {
+            var temp_g = null;
+            this.countG += 1;
+            temp_g = this.ground;
+            this.ground = this.ground_tmp;
+            this.ground_tmp = temp_g;
         }
     }
 

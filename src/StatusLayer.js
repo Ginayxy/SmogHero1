@@ -54,15 +54,18 @@ var StatusLayer = cc.Layer.extend({
     },
 
     onPause: function(event){
+        var audioEngine = cc.audioEngine;
         if(SH.SOUND){
-            var audioEngine = cc.audioEngine;
             audioEngine.playEffect(sound_res.Click_eff);
+        }
+        if(SH.MUSIC && audioEngine.isMusicPlaying()){
+            cc.log(audioEngine.isMusicPlaying());
+            audioEngine.pauseMusic();
         }
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).pause();
         var pauseLayer = new PauseLayer();
         this.addChild(pauseLayer,1,SH.LAYER_TAG.PAUSE);
-        //event.stopPropagation();
     },
 
     updateUI: function () {

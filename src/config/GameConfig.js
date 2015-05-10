@@ -8,12 +8,19 @@ SH.SCALE = 0.8;
 SH.MUD_Y = 1036;
 SH.F_WIDTH = 1720;  //背景图1宽度
 SH.B_WIDTH = 2276;  //背景图2宽度
+SH.G_WIDTH = 1000;
+SH.G_Y = -56;
+SH.GROUND_HEIGHT = 184 + SH.G_Y;
+SH.BRICK_HEIGHT = 450;
+SH.HERO_START_X = 260;
 
-//game state
 SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
+SH.MAP_TYPE = {BRICKS:0, FLAT: 1};
 
-//hero state
 SH.HERO_STATE = {STOP: 0, JUMPUP: 1, JUMPDOWN: 2, FLY: 3, DIE: 4};
+//animation
+SH.BRICK_MOVE ={H:150, V:150};
+
 
 //score
 SH.SCORE = 0;
@@ -30,10 +37,7 @@ SH.ROLE_NAME = {
     BATMAN: 'batman',
     SUPERMAN: 'superman'
 };
-SH.ROLE = SH.ROLE_NAME.BATMAN;
-
-SH.GROUND_HEIGHT = 138;
-SH.HERO_START_X = 260;
+SH.ROLE = SH.ROLE_NAME.SUPERMAN;
 
 //Tag
 SH.LAYER_TAG = {
