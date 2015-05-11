@@ -6,8 +6,9 @@ var ObjectLayer = cc.Layer.extend({
     objects: [],
     spriteSheet: null,
     map: null,
-    mapIndex: null,
-    posX: 0,
+    mapIndex: 0, //0.brick 1.flat
+    newMapIndex: 0,
+    newPosX: 0,
 
     ctor: function (space) {
         this._super();
@@ -40,13 +41,15 @@ var ObjectLayer = cc.Layer.extend({
             var drop_y = SH.BRICK_HEIGHT + 50;
             for (var i = 0; i < brick_length; i++) {
                 brick_type = (i == brick_length - 1 ? 2 : Math.floor(Math.random() * 3));
-                var brick = new Brick(this.spriteSheet, this.space, x, brick_type);
+                var brick = new Brick(this.spriteSheet, this.space, posX + i * 300, brick_type);
                 // add drop
                 if (brick_type == 2) {
                     var flag = Math.round(Math.random());
                     flag == 0 ? drop_y += SH.BRICK_MOVE.V : drop_y -= SH.BRICK_MOVE.V;
                 }
-                var drop = new Drop(this.spriteSheet, this.space, cc.p(x, drop_y));
+                var drop = new Drop(this.spriteSheet, this.space, cc.p(posX + i * 300, drop_y));
+                brick.mapIndex = mapIndex;
+                drop.mapIndex = mapIndex;
                 this.objects.push(brick);
                 this.objects.push(drop);
 
@@ -56,7 +59,10 @@ var ObjectLayer = cc.Layer.extend({
                     i++;
                 }
             }
-        } else if(map == SH.MAP_TYPE.FLAT){
+            this.newPosX += brick_length * 300;
+
+        } else if (map == SH.MAP_TYPE.FLAT) {
+
 
         }
     },
@@ -82,35 +88,31 @@ var ObjectLayer = cc.Layer.extend({
                 break;
             }
         }
-    }
+    },
 
-    //checkAndReload:function (eyeX) {
-    //    var newMapIndex = parseInt(eyeX / this.mapWidth);
-    //    if (this.mapIndex == newMapIndex) {
-    //        return false;
-    //    }
-    //
-    //    if (0 == newMapIndex % 2) {
-    //        // change mapSecond
-    //        this.map01.setPositionX(this.mapWidth * (newMapIndex + 1));
-    //        this.loadObjects(this.map01, newMapIndex + 1);
-    //
-    //    } else {
-    //        // change mapFirst
-    //        this.map00.setPositionX(this.mapWidth * (newMapIndex + 1));
-    //        this.loadObjects(this.map00, newMapIndex + 1);
-    //
-    //    }
-    //
-    //    this.removeObjects(newMapIndex - 1);
-    //    this.mapIndex = newMapIndex;
-    //
-    //    return true;
-    //},
-    //
-    //update:function (dt) {
-    //    var animationLayer = this.getParent().getChildByTag(SH.LAYER_TAG.ANIMATION);
-    //    var eyeX = animationLayer.getEyeX();
-    //    this.checkAndReload(eyeX);
-    //}
+    checkAndReload: function (eyeX) {
+        if (-eyeX >= this.newPosX) {
+            this.newMapIndex++;
+        }
+        if (this.mapIndex == this.newMapIndex) {
+            return false;
+        }
+
+        //if (0 == this.newMapIndex % 2) {
+            //this.loadObjects(SH.MAP_TYPE.FLAT, this.newMapIndex, this.newPosX);
+
+        //} else {
+            this.loadObjects(SH.MAP_TYPE.BRICKS, this.newMapIndex, this.newPosX);
+       // }
+
+        this.removeObjects(this.newMapIndex - 1);
+        this.mapIndex = this.newMapIndex;
+        return true;
+    },
+
+    update: function (dt) {
+        var animationLayer = this.getParent().getChildByTag(SH.LAYER_TAG.ANIMATION);
+        var eyeX = animationLayer.getEyeX();
+        this.checkAndReload(eyeX);
+    }
 });

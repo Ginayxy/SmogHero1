@@ -5,6 +5,13 @@ var Drop = cc.Class.extend({
     space:null,
     sprite:null,
     shape:null,
+    _mapIndex:0,// which map belongs to
+    get mapIndex() {
+        return this._mapIndex;
+    },
+    set mapIndex(index) {
+        this._mapIndex = index;
+    },
 
     /** Constructor
      * @param {cc.SpriteBatchNode *}

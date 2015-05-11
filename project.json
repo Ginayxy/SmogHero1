@@ -1,26 +1,28 @@
 {
-    "project_type": "javascript",
-
-    "debugMode" : 1,
-    "showFPS" : true,
-    "frameRate" : 60,
-    "id" : "gameCanvas",
-    "renderMode" : 2,
-    "engineDir":"frameworks/cocos2d-html5",
-
-    "modules" : ["cocos2d", "chipmunk"],
-
-    "jsList" : [
-        "src/resource.js",
-        "src/config/GameConfig.js",
-        "src/MainMenu.js",
-        "src/SettingScene.js",
-        "src/ShopScene.js",
-        "src/GamePlay.js",
-        "src/BackgroundLayer.js",
-        "src/ObjectLayer.js",
-        "src/AnimationLayer.js",
-        "src/StatusLayer.js",
-        "src/PauseLayer.js"
-    ]
+  "project_type": "javascript",
+  "debugMode": 1,
+  "showFPS": true,
+  "frameRate": 60,
+  "id": "gameCanvas",
+  "renderMode": 2,
+  "engineDir": "frameworks/cocos2d-html5",
+  "modules": [
+    "cocos2d",
+    "chipmunk"
+  ],
+  "jsList": [
+    "src/resource.js",
+    "src/config/GameConfig.js",
+    "src/MainMenu.js",
+    "src/SettingScene.js",
+    "src/ShopScene.js",
+    "src/GamePlay.js",
+    "src/BackgroundLayer.js",
+    "src/ObjectLayer.js",
+    "src/AnimationLayer.js",
+    "src/StatusLayer.js",
+    "src/PauseLayer.js",
+    "src/Brick.js",
+    "src/Drop.js"
+  ]
 }
