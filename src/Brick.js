@@ -6,7 +6,7 @@ var Brick = cc.Class.extend({
     sprite: null,
     shape: null,
     type: 1,
-    _mapIndex:0,// which map belongs to
+    _mapIndex: 0,// which map belongs to
     get mapIndex() {
         return this._mapIndex;
     },
@@ -31,16 +31,16 @@ var Brick = cc.Class.extend({
         }
 
         //init animation
-        if (this.type == 3) {
-            var act1 = cc.moveBy(0, SH.BRICK_MOVE.V);
-            var act2 = cc.moveBy(0, -SH.BRICK_MOVE.V);
-            var act3 = cc.moveBy(0, -SH.BRICK_MOVE.V);
-            var act4 = cc.moveBy(0, SH.BRICK_MOVE.V);
+        if (this.type == 2) {
+            var act1 = cc.moveBy(SH.SPEED, cc.p(0, SH.BRICK_MOVE.V));
+            var act2 = cc.moveBy(SH.SPEED, cc.p(0, -SH.BRICK_MOVE.V));
+            var act3 = cc.moveBy(SH.SPEED, cc.p(0, -SH.BRICK_MOVE.V));
+            var act4 = cc.moveBy(SH.SPEED, cc.p(0, SH.BRICK_MOVE.V));
             var seq = cc.sequence(act1, act2, act3, act4);
             this.sprite.runAction(cc.repeatForever(seq));
-        } else if (this == 4) {
-            var act1 = cc.moveBy(SH.BRICK_MOVE.H, 0);
-            var act2 = cc.moveBy(-SH.BRICK_MOVE.H, 0);
+        } else if (this.type == 3) {
+            var act1 = cc.moveBy(SH.SPEED, cc.p(SH.BRICK_MOVE.H, 0));
+            var act2 = cc.moveBy(SH.SPEED, cc.p(-SH.BRICK_MOVE.H, 0));
             var seq = cc.sequence(act1, act2);
             this.sprite.runAction(cc.repeatForever(seq));
         }
@@ -52,7 +52,11 @@ var Brick = cc.Class.extend({
         this.shape = new cp.BoxShape(body,
             this.sprite.getContentSize().width,
             this.sprite.getContentSize().height);
-        this.shape.setCollisionType(SpriteTag.rock);
+        if (this.type == 0) {
+            this.shape.setCollisionType(SH.SPRITE_TAG.SAND);
+        } else {
+            this.shape.setCollisionType(SH.SPRITE_TAG.BRICK);
+        }
 
         this.space.addStaticShape(this.shape);
 

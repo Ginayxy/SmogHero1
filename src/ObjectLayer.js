@@ -6,9 +6,9 @@ var ObjectLayer = cc.Layer.extend({
     objects: [],
     spriteSheet: null,
     map: null,
-    mapIndex: 0, //0.brick 1.flat
-    newMapIndex: 0,
-    newPosX: 0,
+    mapIndex: 0,
+    newMapIndex: 1,
+    newPosX: 500,
 
     ctor: function (space) {
         this._super();
@@ -25,6 +25,12 @@ var ObjectLayer = cc.Layer.extend({
         this.spriteSheet = new cc.SpriteBatchNode(res.Obj_png);
         this.addChild(this.spriteSheet);
 
+        var start = new cc.Sprite("#floor_top.png");
+        start.attr({x:0, y:0, anchorX:0, anchorY:0});
+        this.spriteSheet.addChild(start);
+
+        this.loadObjects(SH.MAP_TYPE.BRICKS, this.newMapIndex, 500);
+
         this.scheduleUpdate();
     },
     /** loadObjects
@@ -38,14 +44,18 @@ var ObjectLayer = cc.Layer.extend({
             // add bricks
             var brick_length = Math.floor(Math.random() * 5) + 6;
             var brick_type = Math.floor(Math.random() * 3);
-            var drop_y = SH.BRICK_HEIGHT + 50;
             for (var i = 0; i < brick_length; i++) {
                 brick_type = (i == brick_length - 1 ? 2 : Math.floor(Math.random() * 3));
                 var brick = new Brick(this.spriteSheet, this.space, posX + i * 300, brick_type);
+                var drop_y = SH.BRICK_HEIGHT + 100;
                 // add drop
                 if (brick_type == 2) {
                     var flag = Math.round(Math.random());
-                    flag == 0 ? drop_y += SH.BRICK_MOVE.V : drop_y -= SH.BRICK_MOVE.V;
+                    if(flag == 0 ){
+                        drop_y = SH.BRICK_HEIGHT + 100 + SH.BRICK_MOVE.V;
+                    }else{
+                        drop_y = SH.BRICK_HEIGHT + 100 + SH.BRICK_MOVE.V;
+                    }
                 }
                 var drop = new Drop(this.spriteSheet, this.space, cc.p(posX + i * 300, drop_y));
                 brick.mapIndex = mapIndex;
@@ -90,8 +100,17 @@ var ObjectLayer = cc.Layer.extend({
         }
     },
 
+    dropObjectByShape: function(shape){
+        for(var i=0; i<this.objects.length; i++){
+            if(this.objects[i].getShape()==shape){
+
+            }
+        }
+    },
+
     checkAndReload: function (eyeX) {
-        if (-eyeX >= this.newPosX) {
+        cc.log(eyeX);
+        if (eyeX >= this.newPosX) {
             this.newMapIndex++;
         }
         if (this.mapIndex == this.newMapIndex) {

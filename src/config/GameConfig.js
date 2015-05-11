@@ -20,6 +20,7 @@ SH.MAP_TYPE = {BRICKS:0, FLAT: 1};
 SH.HERO_STATE = {STOP: 0, JUMPUP: 1, JUMPDOWN: 2, FLY: 3, DIE: 4};
 //animation
 SH.BRICK_MOVE ={H:150, V:150};
+SH.SPEED = 1;
 
 
 //score
@@ -55,5 +56,5 @@ SH.SPRITE_TAG = {
     DROP: 101,
     OTHER: 102,
     SAND: 104,
-    ROCK: 105
+    BRICK: 105
 };

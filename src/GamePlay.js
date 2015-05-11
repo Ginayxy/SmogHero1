@@ -56,8 +56,8 @@ var GamePlayScene = cc.Scene.extend({
         if(SH.SOUND){
             cc.audioEngine.playEffect(sound_res.Drop_eff);
         }
-        var animationLayer = this.getChildByTag(SH.LAYER_TAG.ANIMATION);
-        animationLayer._tmpScore += 1;
+        var statusLayer = this.getChildByTag(SH.LAYER_TAG.STATUS);
+        statusLayer.addScore();
     },
 
     collisionOtherBegin:function (arbiter, space) {

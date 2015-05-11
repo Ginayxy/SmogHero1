@@ -77,7 +77,10 @@ var StatusLayer = cc.Layer.extend({
     },
 
     addScore: function(){
-        this._tmpScore +=1;
+        this._tmpScore += 1;
+    },
+    getScore: function(){
+        return this._tmpScore;
     }
 
 
