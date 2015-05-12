@@ -5,7 +5,6 @@
 var AnimationLayer = cc.Layer.extend({
     space: null,
     spriteSheet: null,
-    _state: null,
     _hero_spr: null,
     _hero_body: null,
     _hero_shape: null,
@@ -21,7 +20,7 @@ var AnimationLayer = cc.Layer.extend({
         this.init();
         //开启chipmunk调试模式
         this._debugNode = new cc.PhysicsDebugNode(this.space);
-        this._debugNode.setVisible(false);
+        this._debugNode.setVisible(true);
         this.addChild(this._debugNode, 10);
     },
     init: function () {
@@ -35,7 +34,7 @@ var AnimationLayer = cc.Layer.extend({
 
         // 重置全局变量
         //SH.SCORE = 0;
-        this._state = SH.GAME_STATE.PLAY;
+        SH.STATE = SH.GAME_STATE.PLAY;
         this._hero_state = SH.HERO_STATE.STOP;
         SH.HERO_START_X = size.width / 2 - 100;
 

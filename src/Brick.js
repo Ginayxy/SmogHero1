@@ -30,6 +30,28 @@ var Brick = cc.Class.extend({
             this.sprite = new cc.PhysicsSprite("#floor_earth.png");
         }
 
+        var contentSize = this.sprite.getContentSize();
+        //var body = new cp.StaticBody();
+        //body.setPos(cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT));
+        var body = new cp.Body(100, cp.momentForBox(1, contentSize.height, contentSize.height));
+        body.p = cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT);
+        this.space.addBody(body);
+
+        this.shape = new cp.BoxShape(body, contentSize.width, contentSize.height);
+        if (this.type == 0) {
+            this.shape.setCollisionType(SH.SPRITE_TAG.SAND);
+        } else {
+            this.shape.setCollisionType(SH.SPRITE_TAG.BRICK);
+        }
+        this.shape.setSensor(true);
+
+        this.space.addShape(this.shape);
+        this.sprite.setBody(body);
+        spriteSheet.addChild(this.sprite);
+        body.data = this.sprite;
+
+        body.applyForce(cp.v(0, 55000), cp.v(0, 0));
+
         //init animation
         if (this.type == 2) {
             var act1 = cc.moveBy(SH.SPEED, cc.p(0, SH.BRICK_MOVE.V));
@@ -44,23 +66,6 @@ var Brick = cc.Class.extend({
             var seq = cc.sequence(act1, act2);
             this.sprite.runAction(cc.repeatForever(seq));
         }
-
-        var body = new cp.StaticBody();
-        body.setPos(cc.p(posX, this.sprite.getContentSize().height / 2 + SH.BRICK_HEIGHT));
-        this.sprite.setBody(body);
-
-        this.shape = new cp.BoxShape(body,
-            this.sprite.getContentSize().width,
-            this.sprite.getContentSize().height);
-        if (this.type == 0) {
-            this.shape.setCollisionType(SH.SPRITE_TAG.SAND);
-        } else {
-            this.shape.setCollisionType(SH.SPRITE_TAG.BRICK);
-        }
-
-        this.space.addStaticShape(this.shape);
-
-        spriteSheet.addChild(this.sprite);
     },
 
     removeFromParent: function () {

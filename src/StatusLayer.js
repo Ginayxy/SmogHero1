@@ -48,7 +48,7 @@ var StatusLayer = cc.Layer.extend({
     },
     update: function () {
         // 更新分数
-        if (this._state == SH.GAME_STATE.PLAY) {
+        if (SH.STATE == SH.GAME_STATE.PLAY) {
             this.updateUI();
         }
     },

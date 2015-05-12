@@ -11,6 +11,7 @@ var GamePlayScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
         this.initPhysics();
+        SH.STATE = SH.GAME_STATE.PLAY;
         this.gameLayer = new cc.Layer();
         //add three layer in the right order
         this.gameLayer.addChild(new ObjectLayer(this.space), 0, SH.LAYER_TAG.OBJECT);
@@ -43,6 +44,8 @@ var GamePlayScene = cc.Scene.extend({
         // setup chipmunk CollisionHandler
         this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.DROP,
             this.collisionDropBegin.bind(this), null, null, null);
+        this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.BRICK,
+            this.collisionBrickBegin.bind(this), null, null, null);
         this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.OTHER,
             this.collisionOtherBegin.bind(this), null, null, null);
         this.space.addCollisionHandler(SH.SPRITE_TAG.HERO, SH.SPRITE_TAG.SAND,
@@ -58,6 +61,15 @@ var GamePlayScene = cc.Scene.extend({
         }
         var statusLayer = this.getChildByTag(SH.LAYER_TAG.STATUS);
         statusLayer.addScore();
+    },
+
+    collisionBrickBegin: function(arbiter, space){
+        var shapes = arbiter.getShapes();
+        // shapes[0] is hero
+        var brick_body = shapes[1].getBody();
+        brick_body.setVel()
+
+
     },
 
     collisionOtherBegin:function (arbiter, space) {
