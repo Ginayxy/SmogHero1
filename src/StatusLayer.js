@@ -69,19 +69,14 @@ var StatusLayer = cc.Layer.extend({
     },
 
     updateUI: function () {
-        if (this._tmpScore > SH.SCORE) {
+        if (SH.TMPSCORE > SH.SCORE) {
             SH.SCORE += 1;
         }
-        this._score_txt.setString(this._tmpScore);
+        this._score_txt.setString(SH.TMPSCORE);
         this._best_txt.setString("BEST: " + SH.SCORE);
     },
 
     addScore: function(){
-        this._tmpScore += 1;
-    },
-    getScore: function(){
-        return this._tmpScore;
+        SH.TMPSCORE += 1;
     }
-
-
 });

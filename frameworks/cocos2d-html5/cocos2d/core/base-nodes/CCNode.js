@@ -1814,7 +1814,7 @@ cc.Node = cc.Class.extend(/** @lends cc.Node# */{
      * @function
      */
     pause: function () {
-        this.scheduler.pauseTarget(this);
+        //this.scheduler.pauseTarget(this);
         this.actionManager && this.actionManager.pauseTarget(this);
         cc.eventManager.pauseTarget(this);
     },

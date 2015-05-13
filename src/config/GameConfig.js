@@ -12,14 +12,14 @@ SH.G_WIDTH = 1000;  //前景图宽度
 SH.G_Y = -56;       //前景图高度
 SH.GROUND_HEIGHT = 184 + SH.G_Y;    //初始高度
 SH.BRICK_HEIGHT = 450;      //砖块高度
-SH.HERO_START_X = 260;      //角色初始位置X
+SH.HERO_START_X = 180;      //角色初始位置X
 
 SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
 SH.STATE = SH.GAME_STATE.HOME;
 SH.MAP_TYPE = {BRICKS:0, FLAT: 1};
 
 SH.HERO_STATE = {STOP: 0, JUMPUP: 1, JUMPDOWN: 2, FLY: 3, DIE: 4};
-
+SH.HERO_STAND = false;
 //animation
 SH.BRICK_MOVE ={H:200, V:150};
 SH.SPEED = 1;
@@ -28,6 +28,7 @@ SH.BRICK_WIDTH = 350;
 
 //score
 SH.SCORE = 0;
+SH.TMPSCORE = 0;
 SH.DROP = 0;
 SH.DIAMOND = 0;
 SH.SPEEDUP_SORCE = [100, 250, 450, 700, 1000];
@@ -41,7 +42,7 @@ SH.ROLE_NAME = {
     BATMAN: 'batman',
     SUPERMAN: 'superman'
 };
-SH.ROLE = SH.ROLE_NAME.SUPERMAN;
+SH.ROLE = SH.ROLE_NAME.BATMAN;
 
 //Tag
 SH.LAYER_TAG = {
@@ -50,7 +51,8 @@ SH.LAYER_TAG = {
     ANIMATION: 52,
     STATUS: 53,
     PAUSE: 54,
-    GAMEPLAY: 55
+    GAMEPLAY: 55,
+    GAMEOVER:56
 };
 
 // collision type for chipmunk

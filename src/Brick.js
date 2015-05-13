@@ -33,9 +33,9 @@ var Brick = cc.Class.extend({
         var contentSize = this.sprite.getContentSize();
         //var body = new cp.StaticBody();
         //body.setPos(cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT));
-        var body = new cp.Body(100, cp.momentForBox(1, contentSize.height, contentSize.height));
+        var body = new cp.Body(100, cp.momentForBox(1, contentSize.width, contentSize.height));
         body.p = cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT);
-        this.space.addBody(body);
+        //this.space.addBody(body);
 
         this.shape = new cp.BoxShape(body, contentSize.width, contentSize.height);
         if (this.type == 0) {
@@ -43,14 +43,14 @@ var Brick = cc.Class.extend({
         } else {
             this.shape.setCollisionType(SH.SPRITE_TAG.BRICK);
         }
-        this.shape.setSensor(true);
-
+        this.shape.setFriction(0.99);
+        this.shape.setElasticity(0);
         this.space.addShape(this.shape);
         this.sprite.setBody(body);
         spriteSheet.addChild(this.sprite);
-        body.data = this.sprite;
+        this.shape.data = this.sprite;
 
-        body.applyForce(cp.v(0, 55000), cp.v(0, 0));
+        //body.applyForce(cp.v(0, 55000), cp.v(0, 0));
 
         //init animation
         if (this.type == 2) {
@@ -69,7 +69,7 @@ var Brick = cc.Class.extend({
     },
 
     removeFromParent: function () {
-        this.space.removeStaticShape(this.shape);
+        this.space.removeShape(this.shape);
         this.shape = null;
         this.sprite.removeFromParent();
         this.sprite = null;

@@ -9,6 +9,7 @@ var ObjectLayer = cc.Layer.extend({
     mapIndex: 0,
     newMapIndex: 0,
     posX: 500,
+    newPosX : 0,
 
     ctor: function (space) {
         this._super();
@@ -26,7 +27,13 @@ var ObjectLayer = cc.Layer.extend({
         this.addChild(this.spriteSheet);
 
         var start = new cc.Sprite("#floor_top.png");
+        var start_body = new cp.StaticBody();
+        start_body.setPos(cc.p(start.getContentSize().width / 2, 380 + SH.GROUND_HEIGHT));
         start.attr({x: 0, y: 0, anchorX: 0, anchorY: 0});
+        var start_shape = new cp.BoxShape(start_body, start.getContentSize().width, 1);
+        start_shape.setFriction(0.99);
+        this.space.addShape(start_shape);
+
         this.spriteSheet.addChild(start);
 
         this.loadObjects(SH.MAP_TYPE.BRICKS, this.newMapIndex, 500);
@@ -45,9 +52,10 @@ var ObjectLayer = cc.Layer.extend({
             // add bricks
             var brick_length = Math.floor(Math.random() * 5) + 6;   //砖块数量随机
             var brick_type = 0;     //砖块类型
-            var newPosX = ( mapIndex == 0 ? 500 : posX + brick_length * SH.BRICK_WIDTH); //设置新地图的X
+            //var newPosX = ( mapIndex == 0 ? 500 : posX + brick_length * SH.BRICK_WIDTH); //设置新地图的X
+            var newPosX = posX;
             for (var i = 0; i < brick_length; i++) {
-                brick_type = (i == brick_length - 1 ? 2 : Math.floor(Math.random() * 4)); //最后一个为2，其余随机
+                brick_type = (i == brick_length - 1 ? 2 : Math.floor(Math.random() * 3)); //最后一个为2，其余随机
                 var brick = new Brick(this.spriteSheet, this.space, newPosX + i * SH.BRICK_WIDTH, brick_type);
                 var drop_y = SH.BRICK_HEIGHT + 100;
                 // add drop
@@ -56,7 +64,7 @@ var ObjectLayer = cc.Layer.extend({
                     if (flag == 0) {
                         drop_y = SH.BRICK_HEIGHT + 100 + SH.BRICK_MOVE.V;
                     } else {
-                        drop_y = SH.BRICK_HEIGHT + 100 + SH.BRICK_MOVE.V;
+                        drop_y = SH.BRICK_HEIGHT + 100 - SH.BRICK_MOVE.V;
                     }
                 }
                 var drop = new Drop(this.spriteSheet, this.space, cc.p(newPosX + i * SH.BRICK_WIDTH, drop_y));
@@ -72,7 +80,7 @@ var ObjectLayer = cc.Layer.extend({
                 }
             }
             this.posX = newPosX;
-
+            this.newPosX = newPosX + brick_length * SH.BRICK_WIDTH;
 
         } else if (map == SH.MAP_TYPE.FLAT) {
 
@@ -113,7 +121,7 @@ var ObjectLayer = cc.Layer.extend({
 
     checkAndReload: function (eyeX) {
         //cc.log(eyeX);
-        if (eyeX >= this.newPosX) {
+        if (eyeX >= this.posX) {
             this.newMapIndex++;
         }
         if (this.mapIndex == this.newMapIndex) {
@@ -124,10 +132,10 @@ var ObjectLayer = cc.Layer.extend({
         //this.loadObjects(SH.MAP_TYPE.FLAT, this.newMapIndex, this.newPosX);
 
         //} else {
-        this.loadObjects(SH.MAP_TYPE.BRICKS, this.newMapIndex, this.posX);
+        this.loadObjects(SH.MAP_TYPE.BRICKS, this.newMapIndex, this.newPosX);
         // }
         if (this.newMapIndex > 1)
-            this.removeObjects(this.newMapIndex - 1);
+            this.removeObjects(this.newMapIndex - 2);
         this.mapIndex = this.newMapIndex;
         return true;
     },

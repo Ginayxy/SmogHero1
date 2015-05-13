@@ -12,6 +12,7 @@ var AnimationLayer = cc.Layer.extend({
 
     jumpUpAction: null,
     jumpDownAction: null,
+    colliSprite: null,
 
 
     ctor: function (space) {
@@ -33,21 +34,24 @@ var AnimationLayer = cc.Layer.extend({
         this.initAction();
 
         // 重置全局变量
-        //SH.SCORE = 0;
+        SH.TMPSCORE = 0;
         SH.STATE = SH.GAME_STATE.PLAY;
         this._hero_state = SH.HERO_STATE.STOP;
-        SH.HERO_START_X = size.width / 2 - 100;
+        //SH.HERO_START_X = size.width / 2 - 200;
 
         // 角色 添加物理引擎
         this._hero_spr = new cc.PhysicsSprite("#role_" + SH.ROLE + "_0.png");
         var contentSize = this._hero_spr.getContentSize();
         // 初始化 body
-        this._hero_body = new cp.Body(1, cp.momentForBox(1, contentSize.height, contentSize.height));
+        this._hero_body = new cp.Body(1, cp.momentForBox(1, contentSize.width - 40, contentSize.height));
         this._hero_body.p = cc.p(SH.HERO_START_X, 508 + contentSize.height / 2);
         this.space.addBody(this._hero_body);
         // 初始化 shape
-        this._hero_shape = new cp.BoxShape(this._hero_body, contentSize.height, contentSize.height);
+        this._hero_shape = new cp.BoxShape(this._hero_body, contentSize.width - 40, contentSize.height);
+
         this._hero_shape.setCollisionType(SH.SPRITE_TAG.HERO);
+        this._hero_shape.setFriction(0.99);
+        this._hero_shape.setElasticity(0);
         this.space.addShape(this._hero_shape);
         this._hero_spr.setBody(this._hero_body);
         // 加入至spriteSheet
@@ -129,7 +133,8 @@ var AnimationLayer = cc.Layer.extend({
         // 跳跃 1.STOP状态下执行跳跃（向上冲力） 2.JUMP状态下浮空（向上浮力）
         if (this._hero_state == SH.HERO_STATE.STOP) {
             this._hero_state = SH.HERO_STATE.JUMPUP;
-            this._hero_body.applyImpulse(cp.v(150, 450), cp.v(0, 0));
+            SH.HERO_STAND = false;
+            this._hero_body.applyImpulse(cp.v(180, 850), cp.v(0, 0));
             this._hero_spr.stopAllActions();
             this._hero_spr.runAction(this.jumpUpAction);
             if (SH.SOUND) {
@@ -137,36 +142,45 @@ var AnimationLayer = cc.Layer.extend({
             }
         } else if (this._hero_state == SH.HERO_STATE.JUMPUP) {
             this._hero_state = SH.HERO_STATE.FLY;
-            this._hero_body.applyForce(cp.v(0, 300), cp.v(0, 0));
+            this._hero_body.applyForce(cp.v(0, 500), cp.v(0, 0));
         }
     },
 
     update: function (dt) {
-
         // 更新角色状态
         var vel = this._hero_body.getVel();
+        this._hero_body.setAngle(0);
+        this._hero_body.setAngVel(0);
+        //if (vel.x != 0 || vel.y != 0)
+        //    cc.log("x: " + vel.x + ", y: " + vel.y);
         if (this._hero_state == SH.HERO_STATE.JUMPUP || this._hero_state == SH.HERO_STATE.FLY) {
             if (vel.y < -1) {
                 this._hero_state = SH.HERO_STATE.JUMPDOWN;
             }
         } else if (this._hero_state == SH.HERO_STATE.JUMPDOWN || this._hero_state == SH.HERO_STATE.FLY) {
-            if (vel.y == 0) {
+            if (vel.y == 0 || SH.HERO_STAND) {
                 this._hero_spr.stopAllActions();
                 this._hero_spr.runAction(this.jumpDownAction);
+                this._hero_body.resetForces();
                 this._hero_state = SH.HERO_STATE.STOP;
             }
         } else if (this._hero_state == SH.HERO_STATE.STOP) {
-            this._hero_body.setVel(cp.v(0, 0));
+            if (this.colliSprite&&SH.HERO_STAND){
+                var p = this.colliSprite.getPosition();
+                var h = this._hero_body.getPos();
+                this._hero_body.setPos(cp.v(h.x, p.y+95));
+            }
+            this._hero_body.setVelX(0);
             this._hero_body.resetForces();
         }
-    },
-
-    onPause: function () {
-
     },
 
     // 计算角色的偏移
     getEyeX: function () {
         return this._hero_spr.getPositionX() - SH.HERO_START_X;
+    },
+
+    setColliSprite: function (sprite) {
+        this.colliSprite = sprite;
     }
 });

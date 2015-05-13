@@ -24,7 +24,7 @@ var Drop = cc.Class.extend({
         this.sprite = new cc.PhysicsSprite("#obj_drop.png");
 
         // init physics
-        var radius = 0.95 * this.sprite.getContentSize().height / 2;
+        var radius = 0.95 * (this.sprite.getContentSize().height+30) / 2;
         var body = new cp.StaticBody();
         body.setPos(pos);
         this.sprite.setBody(body);

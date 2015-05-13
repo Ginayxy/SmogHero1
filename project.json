@@ -22,6 +22,7 @@
     "src/AnimationLayer.js",
     "src/StatusLayer.js",
     "src/PauseLayer.js",
+    "src/GameOverLayer.js",
     "src/Brick.js",
     "src/Drop.js"
   ]
