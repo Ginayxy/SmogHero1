@@ -3,6 +3,7 @@ var StatusLayer = cc.Layer.extend({
     _tmpScore: 0,
     _score_txt: null,
     _best_txt: null,
+    pause_menu:null,
 
     ctor: function () {
         this._super();
@@ -17,9 +18,10 @@ var StatusLayer = cc.Layer.extend({
         // 状态层
         var pause_btn = new cc.MenuItemImage('#icon_pause.png', '#icon_pause_n.png', this.onPause, this);
         pause_btn.attr({x: 100, y: SH.MUD_Y, scale: SH.SCALE});
-        var pause_menu = new cc.Menu(pause_btn);
-        pause_menu.setPosition(0, 0);
-        this.addChild(pause_menu);
+        this.pause_menu = new cc.Menu(pause_btn);
+        this.pause_menu.setPosition(0, 0);
+        this.addChild(this.pause_menu);
+
         var drop_icon = new cc.Sprite("#icon_drops_n.png");
         drop_icon.attr({x: size.width - 230, y: SH.MUD_Y, scale: SH.SCALE});
         this.addChild(drop_icon);
@@ -64,6 +66,7 @@ var StatusLayer = cc.Layer.extend({
         }
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).pause();
+        this.pause_menu.setEnabled(false);
         var pauseLayer = new PauseLayer();
         this.addChild(pauseLayer,1,SH.LAYER_TAG.PAUSE);
     },
@@ -78,5 +81,9 @@ var StatusLayer = cc.Layer.extend({
 
     addScore: function(){
         SH.TMPSCORE += 1;
+    },
+
+    setMenuEnable: function(enable){
+        this.pause_menu.setEnabled(enable);
     }
 });

@@ -25,7 +25,7 @@ var PauseLayer = cc.Layer.extend({
             scale: 1.2,
             color: cc.color(255, 255, 255)
         });
-        this.addChild(pause_txt,1);
+        this.addChild(pause_txt, 1);
         //menu
         var resume_btn = new cc.MenuItemImage('#icon_setting.png', '#icon_setting_n.png', this.onResume, this);
         resume_btn.attr({x: size.width / 2 - 130, y: 550, scale: SH.SCALE});
@@ -36,44 +36,45 @@ var PauseLayer = cc.Layer.extend({
 
         var pause_menu = new cc.Menu(resume_btn, home_btn, role_btn);
         pause_menu.setPosition(0, 0);
-        this.addChild(pause_menu,1);
+        this.addChild(pause_menu, 1);
     },
     onResume: function () {
         var audioEngine = cc.audioEngine;
-        if(SH.SOUND){
+        if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
             audioEngine.stopAllEffects();
         }
-        if(SH.MUSIC){
+        if (SH.MUSIC) {
             cc.log(audioEngine.isMusicPlaying());
             audioEngine.resumeMusic();
         }
         this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).resume();
         this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).resume();
+this.getParent().setMenuEnable(true);
         this.removeFromParent();
     },
     onHome: function () {
         var audioEngine = cc.audioEngine;
-        if(SH.SOUND){
+        if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
             audioEngine.stopAllEffects();
         }
-        if(SH.MUSIC){
+        if (SH.MUSIC) {
             audioEngine.stopMusic(SH.SOUNDID);
         }
         var scene = new MainMenuScene();
-        cc.director.runScene(new cc.TransitionFade(0.5,scene));
+        cc.director.runScene(new cc.TransitionFade(0.5, scene));
     },
     onRole: function () {
         var audioEngine = cc.audioEngine;
-        if(SH.SOUND){
+        if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
             audioEngine.stopAllEffects();
         }
-        if(SH.MUSIC){
+        if (SH.MUSIC) {
             audioEngine.stopMusic();
         }
         var scene = new ShopScene();
-        cc.director.runScene(new cc.TransitionFade(0.5,scene));
+        cc.director.runScene(new cc.TransitionFade(0.5, scene));
     }
 });

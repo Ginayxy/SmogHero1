@@ -83,6 +83,7 @@ var GamePlayScene = cc.Scene.extend({
 
     collisionOtherBegin: function (arbiter, space) {
         cc.log("==game over");
+        SH.TOTAL_DROP += SH.TMPSCORE;
         //stop bg music
         if (SH.MUSIC) {
             cc.audioEngine.stopMusic();
@@ -95,10 +96,11 @@ var GamePlayScene = cc.Scene.extend({
         var str = "role_" + SH.ROLE + "_1.png";
         var frame = cc.spriteFrameCache.getSpriteFrame(str);
         hero_spr.setSpriteFrame(frame);
-        cc.director.pause();
+        //cc.director.pause();
         var statusLayer = this.getChildByTag(SH.LAYER_TAG.STATUS);
-        statusLayer.pause();
-        statusLayer.addChild(new GameOverLayer(),100);
+        //statusLayer.pause();
+        statusLayer.setMenuEnable(false);
+        statusLayer.addChild(new GameOverLayer(),11);
     },
 
     collisionSandPreSolve: function (arbiter, space) {

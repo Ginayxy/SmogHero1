@@ -52,6 +52,10 @@ var ShopLayer = cc.Layer.extend({
         dropsBar.setPosition(size.width / 2, 800);
         this.addChild(dropsBar);
 
+        var total = new cc.LabelBMFont(SH.TOTAL_DROP)
+        var over_txt = new cc.LabelBMFont("GAMEOVER", res.charmap_fnt);
+        over_txt.attr({ x: size.width / 2, y: 950, anchorX: 0.5, anchorY: 0.5, scale: 1.2, color: cc.color(225, 225, 225) });
+
         var batman = new cc.Sprite('#store_batman.png');
         var batman_n = new cc.Sprite('#store_batman_n.png');
         var superman = new cc.Sprite('#store_superman.png');
