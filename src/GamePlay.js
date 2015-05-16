@@ -96,11 +96,14 @@ var GamePlayScene = cc.Scene.extend({
         var str = "role_" + SH.ROLE + "_1.png";
         var frame = cc.spriteFrameCache.getSpriteFrame(str);
         hero_spr.setSpriteFrame(frame);
-        //cc.director.pause();
+        cc.director.pause();
+        this.getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();
+        this.getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).pause();
+
         var statusLayer = this.getChildByTag(SH.LAYER_TAG.STATUS);
-        //statusLayer.pause();
         statusLayer.setMenuEnable(false);
         statusLayer.addChild(new GameOverLayer(),11);
+        return false;
     },
 
     collisionSandPreSolve: function (arbiter, space) {

@@ -46,7 +46,8 @@ var GameOverLayer = cc.Layer.extend({
             audioEngine.playEffect(sound_res.Click_eff);
         }
         var gameplay = new GamePlayScene();
-        cc.director.runScene(new cc.TransitionFade(0.5,gameplay));
+        cc.director.resume();
+        cc.director.runScene(gameplay);
     },
     onHome: function () {
         var audioEngine = cc.audioEngine;
@@ -58,7 +59,8 @@ var GameOverLayer = cc.Layer.extend({
             audioEngine.stopMusic();
         }
         var scene = new MainMenuScene();
-        cc.director.runScene(new cc.TransitionFade(0.5,scene));
+        cc.director.resume();
+        cc.director.runScene(scene);
     },
     onRole: function () {
         var audioEngine = cc.audioEngine;
@@ -71,6 +73,7 @@ var GameOverLayer = cc.Layer.extend({
             audioEngine.stopMusic();
         }
         var scene = new ShopScene();
-        cc.director.runScene(new cc.TransitionFade(0.5,scene));
+        cc.director.resume();
+        cc.director.runScene(scene);
     }
 });

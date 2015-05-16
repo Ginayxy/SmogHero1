@@ -16,12 +16,12 @@ SH.HERO_START_X = 180;      //角色初始位置X
 
 SH.GAME_STATE = {HOME: 0, PLAY: 1, OVER: 2};
 SH.STATE = SH.GAME_STATE.HOME;
-SH.MAP_TYPE = {BRICKS:0, FLAT: 1};
+SH.MAP_TYPE = {BRICKS: 0, FLAT: 1};
 
 SH.HERO_STATE = {STOP: 0, JUMPUP: 1, JUMPDOWN: 2, FLY: 3, DIE: 4};
 SH.HERO_STAND = false;
 //animation
-SH.BRICK_MOVE ={H:200, V:150};
+SH.BRICK_MOVE = {H: 200, V: 150};
 SH.SPEED = 1;
 SH.BRICK_WIDTH = 350;
 
@@ -45,6 +45,11 @@ SH.ROLE_NAME = {
     SUPERMAN: 'superman'
 };
 SH.ROLE = SH.ROLE_NAME.BATMAN;
+SH.BUYED = false;
+SH.SHOP = {
+    BUY: 0,
+    PLAY: 1
+}
 
 //Tag
 SH.LAYER_TAG = {
@@ -54,7 +59,7 @@ SH.LAYER_TAG = {
     STATUS: 53,
     PAUSE: 54,
     GAMEPLAY: 55,
-    GAMEOVER:56
+    GAMEOVER: 56
 };
 
 // collision type for chipmunk

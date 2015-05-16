@@ -67,6 +67,7 @@ var StatusLayer = cc.Layer.extend({
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).pause();
         this.pause_menu.setEnabled(false);
+
         var pauseLayer = new PauseLayer();
         this.addChild(pauseLayer,1,SH.LAYER_TAG.PAUSE);
     },

@@ -16,6 +16,7 @@
     "src/MainMenu.js",
     "src/SettingScene.js",
     "src/ShopScene.js",
+    "src/ShopPopLayer.js",
     "src/GamePlay.js",
     "src/BackgroundLayer.js",
     "src/ObjectLayer.js",

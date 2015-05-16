@@ -33,11 +33,11 @@ var Brick = cc.Class.extend({
         var contentSize = this.sprite.getContentSize();
         //var body = new cp.StaticBody();
         //body.setPos(cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT));
-        var body = new cp.Body(100, cp.momentForBox(1, contentSize.width, contentSize.height));
+        var body = new cp.Body(100, cp.momentForBox(1, contentSize.width- 30, contentSize.height));
         body.p = cc.p(posX, contentSize.height / 2 + SH.BRICK_HEIGHT);
         //this.space.addBody(body);
 
-        this.shape = new cp.BoxShape(body, contentSize.width, contentSize.height);
+        this.shape = new cp.BoxShape(body, contentSize.width - 10, contentSize.height);
         if (this.type == 0) {
             this.shape.setCollisionType(SH.SPRITE_TAG.SAND);
         } else {

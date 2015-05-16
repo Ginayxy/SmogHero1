@@ -48,9 +48,10 @@ var PauseLayer = cc.Layer.extend({
             cc.log(audioEngine.isMusicPlaying());
             audioEngine.resumeMusic();
         }
+
         this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).resume();
         this.getParent().getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.OBJECT).resume();
-this.getParent().setMenuEnable(true);
+        this.getParent().setMenuEnable(true);
         this.removeFromParent();
     },
     onHome: function () {
@@ -60,10 +61,10 @@ this.getParent().setMenuEnable(true);
             audioEngine.stopAllEffects();
         }
         if (SH.MUSIC) {
-            audioEngine.stopMusic(SH.SOUNDID);
+            audioEngine.stopMusic();
         }
         var scene = new MainMenuScene();
-        cc.director.runScene(new cc.TransitionFade(0.5, scene));
+        cc.director.runScene(scene);
     },
     onRole: function () {
         var audioEngine = cc.audioEngine;
@@ -75,6 +76,6 @@ this.getParent().setMenuEnable(true);
             audioEngine.stopMusic();
         }
         var scene = new ShopScene();
-        cc.director.runScene(new cc.TransitionFade(0.5, scene));
+        cc.director.runScene(scene);
     }
 });
