@@ -37,7 +37,7 @@ SH.SPEEDUP_SORCE = [100, 250, 450, 700, 1000];
 
 //sound
 SH.SOUND = true;
-SH.MUSIC = false;
+SH.MUSIC = true;
 
 //role
 SH.ROLE_NAME = {

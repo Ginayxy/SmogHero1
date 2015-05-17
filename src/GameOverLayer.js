@@ -20,7 +20,8 @@ var GameOverLayer = cc.Layer.extend({
         over_txt.attr({ x: size.width / 2, y: 950, anchorX: 0.5, anchorY: 0.5, scale: 1.2, color: cc.color(225, 225, 225) });
         var title = new cc.Sprite("#txt_score.png");
         title.attr({x:size.width/2, y: 750, scale:0.9});
-        var score_txt = new cc.LabelBMFont(SH.TMPSCORE, res.charmap_fnt);
+        var tmpScore = SH.TMPSCORE ? SH.TMPSCORE : "0";
+        var score_txt = new cc.LabelBMFont(tmpScore, res.charmap_fnt);
         score_txt.attr({ x: size.width / 2, y: 550, anchorX: 0.5,anchorY: 0.5,scale: 2,color: cc.color(176, 224, 230)});
         this.addChild(over_txt,1);
         this.addChild(title,1);
@@ -28,15 +29,28 @@ var GameOverLayer = cc.Layer.extend({
 
         //menu
         var resume_btn = new cc.MenuItemImage('#icon_setting.png', '#icon_setting_n.png', this.onResume, this);
-        resume_btn.attr({x: size.width / 2 - 130, y: 550, scale: SH.SCALE});
+        resume_btn.attr({x: size.width / 2 - 170, y: 550});
         var home_btn = new cc.MenuItemImage('#icon_home.png', '#icon_home_n.png', this.onHome, this);
-        home_btn.attr({x: size.width / 2, y: 550, scale: SH.SCALE});
+        home_btn.attr({x: size.width / 2, y: 550});
         var role_btn = new cc.MenuItemImage('#icon_roles.png', '#icon_roles_n.png', this.onRole, this);
-        role_btn.attr({x: size.width / 2 + 130, y: 550, scale: SH.SCALE});
+        role_btn.attr({x: size.width / 2 + 170, y: 550});
 
         var pause_menu = new cc.Menu(resume_btn, home_btn, role_btn);
         pause_menu.setPosition(0, -350);
         this.addChild(pause_menu,1);
+
+        if ('touches' in cc.sys.capabilities) {
+            cc.eventManager.addListener({
+                event: cc.EventListener.TOUCH_ONE_BY_ONE,
+                swallowTouches: true,
+                onTouchBegan: function (touch, event) {return false;}
+            }, this);
+        } else {
+            cc.eventManager.addListener({
+                event: cc.EventListener.MOUSE,
+                onMouseDown: function (event) {return false;}
+            }, this);
+        }
 
     },
     onResume: function () {
@@ -55,9 +69,6 @@ var GameOverLayer = cc.Layer.extend({
             audioEngine.stopAllEffects();
             audioEngine.playEffect(sound_res.Click_eff);
         }
-        if(SH.MUSIC){
-            audioEngine.stopMusic();
-        }
         var scene = new MainMenuScene();
         cc.director.resume();
         cc.director.runScene(scene);
@@ -68,9 +79,6 @@ var GameOverLayer = cc.Layer.extend({
             audioEngine.stopAllEffects();
             audioEngine.playEffect(sound_res.Click_eff);
 
-        }
-        if(SH.MUSIC){
-            audioEngine.stopMusic();
         }
         var scene = new ShopScene();
         cc.director.resume();

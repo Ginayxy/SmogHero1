@@ -20,9 +20,9 @@ var AnimationLayer = cc.Layer.extend({
         this.space = space;
         this.init();
         //开启chipmunk调试模式
-        this._debugNode = new cc.PhysicsDebugNode(this.space);
-        this._debugNode.setVisible(true);
-        this.addChild(this._debugNode, 10);
+        //this._debugNode = new cc.PhysicsDebugNode(this.space);
+        //this._debugNode.setVisible(false);
+        //this.addChild(this._debugNode, 10);
     },
     init: function () {
         size = cc.director.getWinSize();

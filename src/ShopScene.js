@@ -82,7 +82,7 @@ var ShopLayer = cc.Layer.extend({
 
         // 菜单
         var home_btn = new cc.MenuItemImage('#icon_home.png', '#icon_home_n.png', this.onBack, this);
-        home_btn.setPosition(size.width / 2 + 310, 100);
+        home_btn.setPosition(size.width - 100, 100);
         this.menu = new cc.Menu(home_btn);
         this.menu.setPosition(0, 0);
         this.addChild(this.menu, 10);
@@ -119,9 +119,9 @@ var ShopLayer = cc.Layer.extend({
     onSelect:function(target, pos){
         if (pos.y < 650 && pos.y > 450) {
             if (pos.x < size.width / 2 - 50 && pos.x > size.width / 2 - 250) {
-                this.onPlayEffect();
+                target.onPlayEffect();
                 if(SH.ROLE == SH.ROLE_NAME.BATMAN){
-                    this.addNewLayer(SH.SHOP.PLAY);
+                    target.addNewLayer(SH.SHOP.PLAY);
                 }else{
                     SH.ROLE = SH.ROLE_NAME.BATMAN;
                     var frame = cc.spriteFrameCache.getSpriteFrame('store_batman_n.png');
@@ -130,7 +130,7 @@ var ShopLayer = cc.Layer.extend({
                     this.superman.setSpriteFrame(frame);
                 }
             } else if (pos.x > size.width / 2 + 50 && pos.x < size.width / 2 + 250) {
-                this.onPlayEffect();
+                target.onPlayEffect();
                 if(SH.ROLE != SH.ROLE_NAME.SUPERMAN){
                     if(SH.BUYED){
                         SH.ROLE == SH.ROLE_NAME.SUPERMAN;
@@ -139,8 +139,8 @@ var ShopLayer = cc.Layer.extend({
                         var frame = cc.spriteFrameCache.getSpriteFrame('store_batman.png');
                         this.batman.setSpriteFrame(frame);
                     }else{
-                        if(SH.TOTAL_DROP>0){
-                            this.addNewLayer(SH.SHOP.BUY);
+                        if(SH.TOTAL_DROP>499){
+                            target.addNewLayer(SH.SHOP.BUY);
                         }else{
                             alert("您还没有足够的水滴~");
                         }
@@ -171,7 +171,6 @@ var ShopLayer = cc.Layer.extend({
         var audioEngine = cc.audioEngine;
         if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
-            audioEngine.stopAllEffects();
         }
     },
 

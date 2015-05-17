@@ -25,7 +25,6 @@ var GamePlayScene = cc.Scene.extend({
         }
 
         this.scheduleUpdate();
-
     },
 
     // init space of chipmunk
@@ -82,11 +81,10 @@ var GamePlayScene = cc.Scene.extend({
     },
 
     collisionOtherBegin: function (arbiter, space) {
-        cc.log("==game over");
         SH.TOTAL_DROP += SH.TMPSCORE;
         //stop bg music
-        if (SH.MUSIC) {
-            cc.audioEngine.stopMusic();
+        if (SH.MUSIC && cc.audioEngine.isMusicPlaying()) {
+            cc.audioEngine.pauseMusic();
         }
         if(SH.SOUND){
             cc.audioEngine.playEffect(sound_res.Over_eff);
@@ -102,6 +100,9 @@ var GamePlayScene = cc.Scene.extend({
 
         var statusLayer = this.getChildByTag(SH.LAYER_TAG.STATUS);
         statusLayer.setMenuEnable(false);
+        if(statusLayer.getChildByTag(SH.LAYER_TAG.PAUSE)){
+            statusLayer.getChildByTag(SH.LAYER_TAG.PAUSE).setMenuEnable(false);
+        }
         statusLayer.addChild(new GameOverLayer(),11);
         return false;
     },

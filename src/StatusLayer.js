@@ -61,7 +61,6 @@ var StatusLayer = cc.Layer.extend({
             audioEngine.playEffect(sound_res.Click_eff);
         }
         if(SH.MUSIC && audioEngine.isMusicPlaying()){
-            cc.log(audioEngine.isMusicPlaying());
             audioEngine.pauseMusic();
         }
         this.getParent().getChildByTag(SH.LAYER_TAG.GAMEPLAY).getChildByTag(SH.LAYER_TAG.ANIMATION).pause();

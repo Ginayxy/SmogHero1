@@ -73,22 +73,25 @@ var ShopPopLayer = cc.Layer.extend({
         var audioEngine = cc.audioEngine;
         if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
-            audioEngine.stopAllEffects();
         }
-        this.flag = true;
+        target.flag = true;
         if (pos.x < size.width / 2 + 192 && pos.x > size.width / 2 - 192 && pos.y > size.height / 2 - 50 && pos.y < size.height / 2 + 50) {
             var frame = cc.spriteFrameCache.getSpriteFrame(target.str2);
             target.button.setSpriteFrame(frame);
+            if ('touches' in cc.sys.capabilities){
+                    this.onClickEnd(target, pos);
+            }
         } else {
             target.getParent().resume();
             target.getParent().setMenuEnable(true);
             target.removeFromParent();
         }
-
     },
 
     onClickEnd: function (target, pos) {
-        if (!this.flag) return false;
+        if (!target.flag){
+            return false;
+        }
         if (pos.x < size.width / 2 + 192 && pos.x > size.width / 2 - 192 && pos.y > size.height / 2 - 50 && pos.y < size.height / 2 + 50) {
             if (target.option == SH.SHOP.BUY) {
                 SH.BUYED = true;

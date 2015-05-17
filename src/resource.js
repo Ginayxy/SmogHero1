@@ -40,7 +40,7 @@ var sound_res_iOS = {
     Drop_eff: "res/sound/drop.mp3",
     Fly_eff: "res/sound/fly.mp3",
     Over_eff: "res/sound/over.mp3",
-    Play_music: "res/sound/play.aif"
+    Play_music: "res/sound/play.mp3"
 };
 
 var sound_res_Other = {
@@ -54,10 +54,8 @@ var sound_res_Other = {
 };
 
 if(cc.sys.os == cc.sys.OS_IOS || cc.sys.browserType == cc.sys.BROWSER_TYPE_SAFARI){
-    //alert("ios");
     sound_res = sound_res_iOS;
 }else{
-    //alert("else");
     sound_res = sound_res_Other;
 }
 

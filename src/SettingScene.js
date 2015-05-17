@@ -72,19 +72,14 @@ var SettingLayer = cc.Layer.extend({
         var audioEngine = cc.audioEngine;
         if (SH.SOUND) {
             audioEngine.playEffect(sound_res.Click_eff);
-        } else {
-            audioEngine.stopAllEffects();
         }
     },
 
     onMusicControl: function () {
         SH.MUSIC = !SH.MUSIC;
         var audioEngine = cc.audioEngine;
-        audioEngine.playEffect(sound_res.Click_eff);
-        if (SH.MUSIC) {
-
-        } else {
-            audioEngine.stopMusic();
+        if (SH.SOUND) {
+            audioEngine.playEffect(sound_res.Click_eff);
         }
     },
 
